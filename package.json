@@ -1,0 +1,19 @@
+{
+  "name": "webtools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisclark1729/trustbuds-webtools.git"
+  },
+  "author": "Ryan Mammina",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chrisclark1729/trustbuds-webtools/issues"
+  },
+  "homepage": "https://github.com/chrisclark1729/trustbuds-webtools#readme"
+}
