@@ -39,3 +39,8 @@ Thumbs.db
 # Node #
 ######################
 node_modules/
+
+
+# Files #
+######################
+assets/credentials.js

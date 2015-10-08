@@ -3,8 +3,8 @@ angular.module('webtools.controllers', [])
 angular.module('webtools.controllers').controller('FoodEntryCtrl', function($scope, FoodEntryModel) {
 	$scope.entries = []
 
-	// Load all the food entries.
-	$scope.load = function() {
+	// Get all the food entries.
+	$scope.getAll = function() {
 		FoodEntryModel.getAll().then(function() {
 
 		}, function() {
@@ -13,7 +13,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function($sco
 
 	}
 
-	// Load a single food entry by id.
+	// Get a single food entry by id.
 	$scope.get = function(entryId) {
 		FoodEntryModel.get(entryId).then(function() {
 
@@ -22,7 +22,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function($sco
 		})
 	}
 
-	// Update a food entry.
+	// Update a food entry by id.
 	$scope.update = function(entryId) {
 		FoodEntryModel.update(entryId).then(function() {
 
@@ -31,7 +31,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function($sco
 		})
 	}
 
-	// Delete a food entry.
+	// Delete a food entry by id.
 	$scope.delete = function(entryId) {
 		FoodEntryModel.delete(entryId).then(function() {
 
@@ -39,5 +39,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function($sco
 
 		})
 	}
+
+	$scope.load();
 
 })
