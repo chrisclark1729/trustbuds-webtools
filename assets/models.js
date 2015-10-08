@@ -1,6 +1,6 @@
-angular.module('webtools.service', []);
+angular.module('webtools.models', []);
 
-angular.module('webtools.service').service('FoodEntryModel', function($q) {
+angular.module('webtools.models').service('FoodEntryModel', function($q) {
 
 
 	this.getAll = function() {
@@ -26,7 +26,7 @@ angular.module('webtools.service').service('FoodEntryModel', function($q) {
 
 	this.delete = function(id) {
 		var deferred = $q.defer();
-		
+
 		deferred.resolve()
 		return deferred.promise() 
 	}

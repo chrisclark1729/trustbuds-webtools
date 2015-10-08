@@ -1,5 +1,5 @@
 angular.module('webtools', [
+	'webtools.models',
 	'webtools.controllers',
-	'webtools.service',
 	'ui.bootstrap'
 ])
