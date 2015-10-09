@@ -14,6 +14,7 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 		// set the page to get.
 		query.skip(page * _pageSize);
 		query.limit(_pageSize);
+		query.ascending('createdAt')
 
 		query.find({
 			success: function(results) {

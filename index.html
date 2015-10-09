@@ -14,17 +14,17 @@
 
 		<div class='main' ng-controller='FoodEntryCtrl'>
 			<div class='row'>
-				<div class='col-md-2'>
+				<div class='col-md-1'>
 
-					<table class='table table-bordered table-striped table-hover'>
+					<table class='table table-bordered table-striped table-hover' align='center'>
 						<thead>
 							<tr>
-								<th>Pictures</th>
+								<th>FoodDiaryEntries</th>
 							</tr>
 						</thead>
 
 						<tbody>
-							<tr ng-repeat='entry in entries' >
+							<tr ng-repeat='entry in entries'>
 								<td><img src={{entry.get('imageFile').url}} height='100'></td>
 							</tr>
 						</tbody>
