@@ -1,16 +1,30 @@
 angular.module('webtools.controllers', [])
 
-angular.module('webtools.controllers').controller('FoodEntryCtrl', function($scope, FoodEntryModel) {
+angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
+	$scope, 
+	FoodEntryModel,
+	IngredientsModel
+	) {
+
 	$scope.entries = []
+	$scope.ingredients = []
 
 	// Get all the food entries.
-	$scope.getAll = function() {
-		FoodEntryModel.getAll().then(function() {
-
+	$scope.getAllEntries = function(page) {
+		FoodEntryModel.getAll(page).then(function(entries) {
+			$scope.entries = entries 
 		}, function() {
 
 		});
 
+	}
+
+	$scope.getAllIngredients = function() {
+		IngredientsModel.getAll().then(function() {
+
+			}, function() {
+
+			});
 	}
 
 	// Get a single food entry by id.
@@ -40,6 +54,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function($sco
 		})
 	}
 
-	$scope.load();
+	$scope.getAllEntries(0);
+	$scope.getAllIngredients();
 
 })

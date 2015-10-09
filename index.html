@@ -2,20 +2,42 @@
 
 <head>
 	<title>Web Tools</title>
-	<link type='text/css' rel='stylesheet' href='bower_components/angular-bootstrap/ui-bootstrap-csp.css'>
+	<link type='text/css' rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css'>
 	<link type='text/css' rel='stylesheet' href='assets/style.css'>
 </head>
 
-<body ng-app='webtools'>
+<body ng-app='webtools' >
+	<div class='container-fluid'>
 	
-	<div class='navigation'>
-	</div>
+		<div class='navigation'>
+		</div>
 
-	<div class='main'>
+		<div class='main' ng-controller='FoodEntryCtrl'>
+			<div class='row'>
+				<div class='col-md-2'>
 
-	</div>
+					<table class='table table-bordered table-striped table-hover'>
+						<thead>
+							<tr>
+								<th>Pictures</th>
+							</tr>
+						</thead>
 
-	<div class='footer'>
+						<tbody>
+							<tr ng-repeat='entry in entries' >
+								<td><img src={{entry.get('imageFile').url}} height='100'></td>
+							</tr>
+						</tbody>
+
+					</table>
+
+				</div>
+			</div>
+		</div>
+
+		<div class='footer'>
+
+		</div>
 
 	</div>
 
