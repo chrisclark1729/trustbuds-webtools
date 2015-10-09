@@ -2,3 +2,16 @@
 	margin-top: 50px;
 	margin-left: 50px;
 }
+
+body {
+	background-image: url('img/crossword.png');
+	background-repeat: both;
+}
+
+table tr:nth-child(odd) {
+	background-color: white;
+}
+
+table tr:nth-child(even) {
+	background-color: rgb(247, 247, 249);
+}

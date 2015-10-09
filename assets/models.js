@@ -5,8 +5,9 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 	var FoodEntry = Parse.Object.extend('FoodDiaryEntries');
 	var _pageSize = 100;
 
-	this.getAll = function(page) {
+	this.getAll = function(page, direction) {
 		page = page || 0;
+		direction = direction || 'asc'
 		var deferred = $q.defer();
 
 		var query = new Parse.Query(FoodEntry);
@@ -14,7 +15,12 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 		// set the page to get.
 		query.skip(page * _pageSize);
 		query.limit(_pageSize);
-		query.ascending('createdAt')
+
+		if (direction == 'asc') {
+			query.ascending('createdAt');
+		} else {
+			query.descending('createdAt');
+		}
 
 		query.find({
 			success: function(results) {

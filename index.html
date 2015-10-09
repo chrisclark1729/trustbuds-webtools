@@ -16,8 +16,8 @@
 			<div class='row'>
 				<div class='col-md-1'>
 
-					<table class='table table-bordered table-striped table-hover' align='center'>
-						<thead>
+					<table class='table table-bordered table-hover' align='center'>
+						<thead style='background-color:white;'>
 							<tr>
 								<th>FoodDiaryEntries</th>
 							</tr>
@@ -25,7 +25,7 @@
 
 						<tbody>
 							<tr ng-repeat='entry in entries'>
-								<td><img src={{entry.get('imageFile').url}} height='100'></td>
+								<td><img src={{entry.get('imageFile').url}} width='150'></td>
 							</tr>
 						</tbody>
 

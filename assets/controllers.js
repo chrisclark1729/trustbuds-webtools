@@ -8,12 +8,13 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 	$scope.entries = []
 	$scope.ingredients = []
+	$scope.entry = null
 
 	// Get all the food entries.
-	$scope.getAllEntries = function(page) {
-		FoodEntryModel.getAll(page).then(function(entries) {
+	$scope.getAllEntries = function(page, direction) {
+		FoodEntryModel.getAll(page, direction).then(function(entries) {
 			$scope.entries = entries 
-		}, function() {
+		}, function(reason) {
 
 		});
 
