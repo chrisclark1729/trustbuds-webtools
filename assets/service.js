@@ -18,11 +18,10 @@ angular.module('webtools.service').service('Geocode', function($q, $window, $roo
 
 	this.reverseGeocode = function(GeoPoint) {
 		deferred = $q.defer();
-		console.log(GeoPoint);
 
 		key = geoKey(GeoPoint.longitude, GeoPoint.latitude)
 		address = localStorageService.get(key);
-		
+
 		if (address !== null ) {
 			deferred.resolve(address)
 			return deferred.promise
@@ -32,9 +31,9 @@ angular.module('webtools.service').service('Geocode', function($q, $window, $roo
 
 		geocoder.geocode({'location': latlong}, function(results, status) {
 			if (status === google.maps.GeocoderStatus.OK){
-				if (results[0]) {
-					localStorageService.set(key, results[0].formatted_address)
-					deferred.resolve(results[0].formatted_address);
+				if (results[1]) {
+					localStorageService.set(key, results[1].formatted_address)
+					deferred.resolve(results[1].formatted_address);
 				} else {
 					deferred.resolve('');
 				}
