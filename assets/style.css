@@ -56,3 +56,34 @@ table tbody .selected {
 .thumbnail {
 	margin-bottom: 0px;
 }
+
+.frame {
+	width: 700px;
+	height: 500px;
+	overflow: hidden;
+}
+
+.controls {
+	margin-top: 20px;
+	width: 710px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.controls span:hover {
+	cursor: pointer;
+	color: #3498DB;
+}
+
+.glyphicon-chevron-left {
+	font-size: 50px;
+}
+
+.glyphicon-chevron-right {
+	font-size: 50px;
+	float: right;
+}

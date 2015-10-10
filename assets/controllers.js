@@ -2,6 +2,7 @@ angular.module('webtools.controllers', [])
 
 angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	$scope, 
+	$q,
 	FoodEntryModel,
 	IngredientsModel
 	) {
@@ -11,34 +12,75 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	$scope.ingredients = []
 	$scope.selectedEntry = null
 
-	// Get all the food entries.
-	$scope.getAllEntries = function(page, direction) {
-		FoodEntryModel.getAll(page, direction).then(function(entries) {
-			$scope.entries = entries 
-		}, function(reason) {
+	_entryIndex = null;
+	_page = 0
 
-		});
-
+	isDefined = function(object) {
+		return (object !== null) && (object !== undefined)
 	}
 
-	$scope.selectEntry = function(entry) {
-		if ($scope.selectedEntry !== null) {
+	// Get all the food entries.
+	$scope.getAllEntries = function(page, direction) {
+		deferred = $q.defer()
+		FoodEntryModel.getAll(page, direction).then(function(entries) {
+			$scope.entries = $scope.entries.concat(entries)
+			deferred.resolve()
+		}, function(reason) {
+			deferred.reject()
+		});
+
+		return deferred.promise
+	}
+
+	$scope.selectEntry = function(entry, index) {
+		if (isDefined($scope.selectedEntry) && isDefined(entry)) {
 			if ($scope.selectedEntry.id == entry.id) {
 				// deselect current selected entry.
 				$scope.selectedEntry = null;
-
+				_entryIndex = null;
 				return
 			}
 		}
+
 		$scope.selectedEntry = entry
+		_entryIndex = index
 	}
 
 	$scope.isSelected = function(entry) {
-		if ($scope.selectedEntry === null) {
+		if ($scope.selectedEntry === null || $scope.selectedEntry === undefined || entry === null || entry === undefined) {
 			return false;
 		}
 
 		return entry.id === $scope.selectedEntry.id
+	}
+
+	$scope.prev = function() {
+		if (_entryIndex === 0) {
+			return;
+		}
+
+		_entryIndex -= 1;
+		$scope.selectedEntry = $scope.entries[_entryIndex];
+	}
+
+	//
+	//
+	//
+	$scope.next = function() {
+		if (_entryIndex === $scope.totalEntryCount) {
+			return
+		}
+			
+		if (_entryIndex === $scope.entries.length - 1) {
+			_page += 1
+			$scope.getAllEntries(_page).then(function() {
+				_entryIndex += 1;
+				$scope.selectedEntry = $scope.entries[_entryIndex];
+			})
+		} else {
+			_entryIndex += 1;
+			$scope.selectedEntry = $scope.entries[_entryIndex];
+		}
 	}
 
 	$scope.getAllIngredients = function() {

@@ -19,6 +19,7 @@
 					<div class='panel panel-default'>
 						<div class='panel-heading'>Food Diary Entries - Total: {{totalEntryCount}}</div>
 						<table class='table table-bordered header-fixed' align='center'>
+
 							<thead style='background-color:white;'>
 								<tr>
 									<th>Pictures</th>
@@ -26,24 +27,47 @@
 							</thead>
 
 							<tbody>
-								<tr ng-repeat='entry in entries' 
-										ng-click='selectEntry(entry)' 
+								<tr ng-repeat='entry in entries track by $index' 
+										ng-click='selectEntry(entry, $index)' 
 										ng-class='{ selected : isSelected(entry)}'>
 									<td>
 										<img class='thumbnail' ng-src={{entry.get('imageFile').url}} width='150'>
 									</td>
 								</tr>
 							</tbody>
+
 						</table>
 					</div>
 				</div>
 
 				<div class='col-md-10'>
 					<div class='panel panel-default' ng-if='selectedEntry != null'>
+
 						<div class='panel-heading'>{{selectedEntry.get('locationName')}}
 						</div>
-						<div class='panel-body'>
 
+						<div class='panel-body'>
+							<div class='row'>
+								<div class='col-md-7'>
+
+									<div class='thumbnail' 
+											 style='width:710px;' 
+											 uib-popover="Double Click to expand / colapse picture" popover-trigger="mouseenter"
+											 popover-placement='right'
+											 >
+										<div class='frame' frame-expand style='cursor:pointer'>
+											<img ng-src={{selectedEntry.get('imageFile').url}} width='700'></img>
+										</div>
+
+									</div>
+
+									<div class='controls'>
+										<span ng-click='prev()' class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+										<span ng-click='next()'class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+									</div>
+
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -59,11 +83,12 @@
 
 
 	<script type='text/javascript' src='bower_components/angular/angular.js'></script>
-	<script type='text/javascript' src='bower_components/angular-bootstrap/ui-bootstrap.min.js'></script> 
+	<script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.0.js"></script>
 	<script type='text/javascript' src='http://www.parsecdn.com/js/parse-1.0.19.min.js'></script>
 	<script type='text/javascript' src='assets/constants.js'></script>
 	<script type='text/javascript' src='assets/credentials.js'></script>
 	<script type='text/javascript' src='assets/service.js'></script>
+	<script type='text/javascript' src='assets/directives.js'></script>
 	<script type='text/javascript' src='assets/models.js'></script>
 	<script type='text/javascript' src='assets/controllers.js'></script>
 	<script type='text/javascript' src='assets/main.js'></script>

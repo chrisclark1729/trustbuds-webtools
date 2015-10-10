@@ -1,5 +1,6 @@
 angular.module('webtools', [
 	'webtools.constants',
+	'webtools.directives',
 	'webtools.service',
 	'webtools.models',
 	'webtools.controllers',
