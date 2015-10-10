@@ -1,5 +1,3 @@
-angular.module('webtools.models', []);
-
 angular.module('webtools.models').service('FoodEntryModel', function($q) {
 
 	var FoodEntry = Parse.Object.extend('FoodDiaryEntries');
@@ -7,10 +5,9 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 
 	this.getAll = function(page, direction) {
 		page = page || 0;
-		direction = direction || 'asc'
+		direction = direction || 'desc'
 
 		var deferred = $q.defer();
-
 		var query = new Parse.Query(FoodEntry);
 
 		// set the page to get.
@@ -69,47 +66,6 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 
 		deferred.resolve();
 		return deferred.promise;
-	}
-
-	return this;
-})
-
-angular.module('webtools.models').service('IngredientsModel', function($q) {
-
-	var Ingredients = Parse.Object.extend('Ingredients');
-
-	this.getAll = function(page) {
-		var deferred = $q.defer();
-
-		var query = new Parse.Query(Ingredients);
-		query.limit(1000)
-
-		query.find({
-			success: function(results) {
-				deferred.resolve(results);
-			},
-			error: function(reason) {
-				deferred.reject(reason);
-			}
-		})
-
-		return deferred.promise;
-	}
-
-	this.get = function(id) {
-
-	}
-
-	this.create = function(params) {
-
-	}
-
-	this.update = function(id) {
-
-	}
-
-	this.delete = function(id) {
-
 	}
 
 	return this;

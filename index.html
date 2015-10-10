@@ -15,11 +15,12 @@
 		<div class='main' ng-controller='FoodEntryCtrl'>
 			<div class='row'>
 
+				<!-- Picture table -->
 				<div class='col-md-2'>
 					<div class='panel panel-default'>
 						<div class='panel-heading' ng-click='showInfo = !showInfo'>Food Diary Entries - Total: {{totalEntryCount}}</div>
 						<div class='panel-body' ng-if='showInfo'>
-							Scroll to bottom to load more pictures.<br/>
+							Press more button to load more entries.
 							Select a picture to edit diary entry.
 						</div>
 						<table class='table table-bordered header-fixed' align='center'>
@@ -41,9 +42,13 @@
 							</tbody>
 
 						</table>
+						<div class='panel-footer more' ng-click='more()'>
+							More <span class='glyphicon glyphicon-plus' aria-hidden='true'></span>
+						</div>
 					</div>
 				</div>
 
+				<!-- Food Entry Panel -->
 				<div class='col-md-10'>
 					<div class='panel panel-default' ng-if='selectedEntry != null'>
 
@@ -52,14 +57,13 @@
 
 						<div class='panel-body'>
 							<div class='row'>
-								<div class='col-md-7'>
+								<div class='col-md-6'>
 
 									<div class='thumbnail' 
 											 style='width:710px;' 
 											 uib-popover="Double Click to expand / colapse picture. Click and drag to position vertically." popover-trigger="mouseenter"
 											 popover-placement='right'
 											 >
-											 
 										<div class='frame' frame-expand style='cursor:pointer'>
 											<img image-adjust ng-src={{selectedEntry.get('imageFile').url}} width='700'></img>
 										</div>
@@ -69,6 +73,32 @@
 									<div class='controls'>
 										<span ng-click='prev()' class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 										<span ng-click='next()'class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+									</div>
+
+								</div>
+
+								<div class='col-md-6'>
+
+									<div class='row'>
+										<div class='col-md-1'>
+											<h3>Tags</h3>
+										</div>
+
+										<div class='col-md-11 tags'>
+											<span ng-repeat='tag in foodTags' class='label label-default'>
+												{{tag.get('foodDiaryTag')}}
+											</span>
+										</div>
+
+									</div>
+
+									<div class='row'>
+										<div class='col-md-2 .location'>
+											<h3>Location</h3>
+										</div>
+										<div class='col-md-10'>
+											<h5>{{selectedEntry.get('location')}}</h5>
+										</div>
 									</div>
 
 								</div>
@@ -94,8 +124,15 @@
 	<script type='text/javascript' src='assets/credentials.js'></script>
 	<script type='text/javascript' src='assets/service.js'></script>
 	<script type='text/javascript' src='assets/directives.js'></script>
-	<script type='text/javascript' src='assets/models.js'></script>
+
+	<script type='text/javascript' src='assets/models/models.js'></script>
+	<script type='text/javascript' src='assets/models/food-entry.model.js'></script>
+	<script type='text/javascript' src='assets/models/food-tag.model.js'></script>
+	<script type='text/javascript' src='assets/models/food-detail.model.js'></script>
+	<script type='text/javascript' src='assets/models/ingredient.model.js'></script>
+
 	<script type='text/javascript' src='assets/controllers.js'></script>
 	<script type='text/javascript' src='assets/main.js'></script>
+	<script type='text/geo-key'></script>
 
 </body>

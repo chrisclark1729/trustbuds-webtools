@@ -21,7 +21,7 @@ body {
 }
 
 table tbody {
-	height: 900px;
+	height: 830px;
 	overflow: scroll;
 }
 
@@ -91,4 +91,26 @@ table tbody .selected {
 .glyphicon-chevron-right {
 	font-size: 50px;
 	float: right;
+}
+
+.more {
+	text-align: center;
+	font-size: 24px;
+	cursor: pointer;
+}
+
+.more:hover {
+	background-color: #ECF0F1;
+	color: #3498DB;
+}
+
+.tags, .location {
+	margin-top: 25px;
+	margin-bottom: 15px;
+}
+
+.tags span, .location h5	 {
+	margin-left: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
