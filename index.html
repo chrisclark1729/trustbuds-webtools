@@ -17,7 +17,11 @@
 
 				<div class='col-md-2'>
 					<div class='panel panel-default'>
-						<div class='panel-heading'>Food Diary Entries - Total: {{totalEntryCount}}</div>
+						<div class='panel-heading' ng-click='showInfo = !showInfo'>Food Diary Entries - Total: {{totalEntryCount}}</div>
+						<div class='panel-body' ng-if='showInfo'>
+							Scroll to bottom to load more pictures.<br/>
+							Select a picture to edit diary entry.
+						</div>
 						<table class='table table-bordered header-fixed' align='center'>
 
 							<thead style='background-color:white;'>
@@ -52,11 +56,12 @@
 
 									<div class='thumbnail' 
 											 style='width:710px;' 
-											 uib-popover="Double Click to expand / colapse picture" popover-trigger="mouseenter"
+											 uib-popover="Double Click to expand / colapse picture. Click and drag to position vertically." popover-trigger="mouseenter"
 											 popover-placement='right'
 											 >
+											 
 										<div class='frame' frame-expand style='cursor:pointer'>
-											<img ng-src={{selectedEntry.get('imageFile').url}} width='700'></img>
+											<img image-adjust ng-src={{selectedEntry.get('imageFile').url}} width='700'></img>
 										</div>
 
 									</div>

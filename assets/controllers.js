@@ -11,6 +11,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	$scope.entries = []
 	$scope.ingredients = []
 	$scope.selectedEntry = null
+	$scope.showInfo = false;
 
 	_entryIndex = null;
 	_page = 0
@@ -70,7 +71,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		if (_entryIndex === $scope.totalEntryCount) {
 			return
 		}
-			
+
 		if (_entryIndex === $scope.entries.length - 1) {
 			_page += 1
 			$scope.getAllEntries(_page).then(function() {

@@ -3,7 +3,7 @@ angular.module('webtools.models', []);
 angular.module('webtools.models').service('FoodEntryModel', function($q) {
 
 	var FoodEntry = Parse.Object.extend('FoodDiaryEntries');
-	var _pageSize = 20;
+	var _pageSize = 30;
 
 	this.getAll = function(page, direction) {
 		page = page || 0;

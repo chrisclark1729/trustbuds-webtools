@@ -59,8 +59,13 @@ table tbody .selected {
 
 .frame {
 	width: 700px;
-	height: 500px;
+	height: 525px;
 	overflow: hidden;
+}
+
+.frame img {
+	top: 0px;
+	position: relative;
 }
 
 .controls {
