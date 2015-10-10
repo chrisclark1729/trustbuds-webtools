@@ -8,7 +8,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 	$scope.entries = []
 	$scope.ingredients = []
-	$scope.entry = null
+	$scope.selectedEntry = null
 
 	// Get all the food entries.
 	$scope.getAllEntries = function(page, direction) {
@@ -20,12 +20,31 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 	}
 
+	$scope.selectEntry = function(entry) {
+		if ($scope.selectedEntry !== null) {
+			if ($scope.selectedEntry.id == entry.id) {
+				// deselect current selected value.
+				$scope.selectedEntry = null;
+				return
+			}
+		}
+		$scope.selectedEntry = entry
+	}
+
+	$scope.isSelected = function(entry) {
+		if ($scope.selectedEntry === null) {
+			return false;
+		}
+
+		return entry.id === $scope.selectedEntry.id
+	}
+
 	$scope.getAllIngredients = function() {
-		IngredientsModel.getAll().then(function() {
+		IngredientsModel.getAll().then(function(ingredients) {
+			$scope.ingredients = ingredients; 
+		}, function() {
 
-			}, function() {
-
-			});
+		});
 	}
 
 	// Get a single food entry by id.

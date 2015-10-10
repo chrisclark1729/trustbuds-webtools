@@ -16,7 +16,7 @@
 			<div class='row'>
 				<div class='col-md-1'>
 
-					<table class='table table-bordered table-hover' align='center'>
+					<table class='table table-bordered' align='center'>
 						<thead style='background-color:white;'>
 							<tr>
 								<th>FoodDiaryEntries</th>
@@ -24,8 +24,10 @@
 						</thead>
 
 						<tbody>
-							<tr ng-repeat='entry in entries'>
-								<td><img src={{entry.get('imageFile').url}} width='150'></td>
+							<tr ng-repeat='entry in entries' 
+									ng-click='selectEntry(entry)' 
+									ng-class='{ selected : isSelected(entry)}'>
+								<td><img ng-src={{entry.get('imageFile').url}} width='150'></td>
 							</tr>
 						</tbody>
 

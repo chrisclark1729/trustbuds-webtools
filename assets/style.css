@@ -1,17 +1,31 @@
-.main {
-	margin-top: 50px;
-	margin-left: 50px;
-}
-
 body {
 	background-image: url('img/crossword.png');
 	background-repeat: both;
 }
 
-table tr:nth-child(odd) {
+table tbody tr:nth-child(odd) {
 	background-color: white;
 }
 
-table tr:nth-child(even) {
+table tbody tr:nth-child(even) {
 	background-color: rgb(247, 247, 249);
 }
+
+table tbody tr:hover {
+	background-color: #3498DB;
+	cursor: pointer;
+}
+
+table td {
+	padding: 15px !important;
+}
+
+table tbody .selected {
+	background-color: #2980B9 !important;
+}
+
+.main {
+	margin-top: 50px;
+	margin-left: 50px;
+}
+
