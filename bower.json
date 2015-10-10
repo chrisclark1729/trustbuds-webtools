@@ -19,6 +19,7 @@
   ],
   "dependencies": {
     "angular-bootstrap": "~0.13.4",
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "angular-local-storage": "~0.2.2"
   }
 }

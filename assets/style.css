@@ -109,8 +109,12 @@ table tbody .selected {
 	margin-bottom: 15px;
 }
 
-.tags span, .location h5	 {
+.tags span {
 	margin-left: 10px;
 	margin-top: 5px;
 	margin-bottom: 5px;
+}
+
+.location h5 {
+	margin-top: 2px;
 }

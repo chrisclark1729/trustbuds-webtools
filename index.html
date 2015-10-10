@@ -93,11 +93,11 @@
 									</div>
 
 									<div class='row'>
-										<div class='col-md-2 .location'>
+										<div class='col-md-2'>
 											<h3>Location</h3>
 										</div>
-										<div class='col-md-10'>
-											<h5>{{selectedEntry.get('location')}}</h5>
+										<div class='col-md-10 location'>
+											<h5>{{selectedEntry.get('address')}}</h5>
 										</div>
 									</div>
 
@@ -118,7 +118,8 @@
 
 
 	<script type='text/javascript' src='bower_components/angular/angular.js'></script>
-	<script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.0.js"></script>
+	<script type='text/javascript' src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.0.js"></script>
+	<script type='text/javascript' src='bower_components/angular-local-storage/dist/angular-local-storage.min.js'></script>
 	<script type='text/javascript' src='http://www.parsecdn.com/js/parse-1.0.19.min.js'></script>
 	<script type='text/javascript' src='assets/constants.js'></script>
 	<script type='text/javascript' src='assets/credentials.js'></script>
@@ -133,6 +134,6 @@
 
 	<script type='text/javascript' src='assets/controllers.js'></script>
 	<script type='text/javascript' src='assets/main.js'></script>
-	<script type='text/geo-key'></script>
+	<script type='text/google_maps_key'></script>
 
 </body>

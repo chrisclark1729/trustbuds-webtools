@@ -6,7 +6,8 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	FoodEntryModel,
 	IngredientModel,
 	FoodDetailModel,
-	FoodTagModel
+	FoodTagModel,
+	Geocode
 	) {
 
 	$scope.totalEntryCount = 0;
@@ -55,12 +56,23 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		});
 	}
 
-	entryAssociations = function(entry) {
+	$scope.getAddress = function(entry) {
+		GeoPoint = entry.get('location')
+		
+		Geocode.reverseGeocode(GeoPoint).then(function(address) {
+			entry.set('address', address)
+		}, function(reason) {
+
+		});
+	}
+
+	proccessEntry = function(entry) {
 		$scope.foodTags = []
 		$scope.foodDetails = []
 
-		$scope.getDetails($scope.selectedEntry)
-		$scope.getTags($scope.selectedEntry)
+		$scope.getDetails(entry)
+		$scope.getTags(entry)
+		$scope.getAddress(entry)
 	}
 
 	$scope.selectEntry = function(entry, index) {
@@ -76,7 +88,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		$scope.selectedEntry = entry
 		_entryIndex = index
 
-		entryAssociations($scope.selectedEntry)
+		proccessEntry($scope.selectedEntry)
 	}
 
 	$scope.isSelected = function(entry) {
@@ -94,7 +106,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 		_entryIndex -= 1;
 		$scope.selectedEntry = $scope.entries[_entryIndex];
-		entryAssociations($scope.selectedEntry)
+		proccessEntry($scope.selectedEntry)
 	}
 
 	$scope.more = function() {
@@ -113,13 +125,13 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 				_entryIndex += 1;
 				$scope.selectedEntry = $scope.entries[_entryIndex];
 
-				entryAssociations($scope.selectedEntry)
+				proccessEntry($scope.selectedEntry)
 			})
 		} else {
 			_entryIndex += 1;
 			$scope.selectedEntry = $scope.entries[_entryIndex];
 
-			entryAssociations($scope.selectedEntry)
+			proccessEntry($scope.selectedEntry)
 		}
 
 	}
