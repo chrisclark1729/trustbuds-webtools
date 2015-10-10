@@ -6,7 +6,7 @@
 	<link type='text/css' rel='stylesheet' href='assets/style.css'>
 </head>
 
-<body ng-app='webtools' >
+<body ng-app='webtools'>
 	<div class='container-fluid'>
 	
 		<div class='navigation'>
@@ -14,26 +14,40 @@
 
 		<div class='main' ng-controller='FoodEntryCtrl'>
 			<div class='row'>
-				<div class='col-md-1'>
 
-					<table class='table table-bordered' align='center'>
-						<thead style='background-color:white;'>
-							<tr>
-								<th>FoodDiaryEntries</th>
-							</tr>
-						</thead>
+				<div class='col-md-2'>
+					<div class='panel panel-default'>
+						<div class='panel-heading'>Food Diary Entries - Total: {{totalEntryCount}}</div>
+						<table class='table table-bordered header-fixed' align='center'>
+							<thead style='background-color:white;'>
+								<tr>
+									<th>Pictures</th>
+								</tr>
+							</thead>
 
-						<tbody>
-							<tr ng-repeat='entry in entries' 
-									ng-click='selectEntry(entry)' 
-									ng-class='{ selected : isSelected(entry)}'>
-								<td><img ng-src={{entry.get('imageFile').url}} width='150'></td>
-							</tr>
-						</tbody>
-
-					</table>
-
+							<tbody>
+								<tr ng-repeat='entry in entries' 
+										ng-click='selectEntry(entry)' 
+										ng-class='{ selected : isSelected(entry)}'>
+									<td>
+										<img class='thumbnail' ng-src={{entry.get('imageFile').url}} width='150'>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
+
+				<div class='col-md-10'>
+					<div class='panel panel-default' ng-if='selectedEntry != null'>
+						<div class='panel-heading'>{{selectedEntry.get('locationName')}}
+						</div>
+						<div class='panel-body'>
+
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 

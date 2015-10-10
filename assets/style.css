@@ -1,6 +1,28 @@
+html, body {
+	height: 100%;
+}
+
 body {
 	background-image: url('img/crossword.png');
 	background-repeat: both;
+}
+
+.header-fixed {
+	width: 100%;
+}
+
+.header-fixed > thead,
+.header-fixed > tbody,
+.header-fixed > thead > tr,
+.header-fixed > tbody > tr,
+.header-fixed > thead > tr > th,
+.header-fixed > tbody > tr > td {
+    display: block;
+}
+
+table tbody {
+	height: 900px;
+	overflow: scroll;
 }
 
 table tbody tr:nth-child(odd) {
@@ -27,5 +49,10 @@ table tbody .selected {
 .main {
 	margin-top: 50px;
 	margin-left: 50px;
+	margin-right: 50px;
 }
 
+
+.thumbnail {
+	margin-bottom: 0px;
+}

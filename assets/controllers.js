@@ -6,6 +6,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	IngredientsModel
 	) {
 
+	$scope.totalEntryCount = 0;
 	$scope.entries = []
 	$scope.ingredients = []
 	$scope.selectedEntry = null
@@ -23,8 +24,9 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	$scope.selectEntry = function(entry) {
 		if ($scope.selectedEntry !== null) {
 			if ($scope.selectedEntry.id == entry.id) {
-				// deselect current selected value.
+				// deselect current selected entry.
 				$scope.selectedEntry = null;
+
 				return
 			}
 		}
@@ -45,6 +47,14 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		}, function() {
 
 		});
+	}
+
+	$scope.getEntryCount = function() {
+		FoodEntryModel.getCount().then(function(count) {
+			$scope.totalEntryCount = count;
+		}, function() {
+
+		})
 	}
 
 	// Get a single food entry by id.
@@ -76,5 +86,6 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 	$scope.getAllEntries(0);
 	$scope.getAllIngredients();
+	$scope.getEntryCount();
 
 })
