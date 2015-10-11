@@ -1,5 +1,3 @@
-angular.module('webtools.service', [])
-
 angular.module('webtools.service').service('Geocode', function($q, $window, $rootScope, localStorageService) {
 	var geocoder = null
 	

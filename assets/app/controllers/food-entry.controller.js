@@ -1,5 +1,3 @@
-angular.module('webtools.controllers', [])
-
 angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	$scope, 
 	$q,
@@ -8,7 +6,8 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	IngredientModel,
 	FoodDetailModel,
 	FoodTagModel,
-	Geocode
+	Geocode,
+	Flash
 	) {
 
 	$scope.totalEntryCount = 0;
@@ -35,6 +34,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 			$scope.entries = $scope.entries.concat(entries)
 			deferred.resolve()
 		}, function(reason) {
+			Flash.sendMessage(reason, 'danger')
 			deferred.reject()
 		});
 
@@ -50,12 +50,13 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 				$scope.foodDetails[ingredientId] = {
 					"ingredient" : ingredient,
-					"servings" : detail.get('numberOfServings')
+					"servings" : detail.get('numberOfServings'),
+					'detailId' : detail.id
 				}
 
 			})
 		}, function(reason){
-
+			Flash.sendMessage(reason, 'danger')
 		})
 	}
 
@@ -68,7 +69,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		FoodTagModel.get(entry).then(function(tags) {
 			$scope.foodTags = tags
 		}, function(reason) {
-
+			Flash.sendMessage(reason, 'danger')
 		});
 	}
 
@@ -78,11 +79,11 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		Geocode.reverseGeocode(GeoPoint).then(function(address) {
 			entry.set('address', address)
 		}, function(reason) {
-
+			Flash.sendMessage(reason, 'danger')
 		});
 	}
 
-	$scope.attachIngredient = function() {
+	$scope.attachIngredients = function() {
 		var modalInstance = $uibModal.open({
       animation: true,
       templateUrl: 'attach-ingredients.html',
@@ -94,15 +95,34 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
       }	
 		});
 
-
-		modalInstance.result.then(function (ingredient) {
-			$scope.foodDetails[ingredient.id] = {
-				'ingredient': ingredient,
-				'servings' : 0
-			}
+		modalInstance.result.then(function (ingredients) {
+			angular.forEach(ingredients, function(ingredient){
+				$scope.foodDetails[ingredient.id] = {
+					'ingredient': ingredient,
+					'servings' : 0
+				}
+			})
     });
 
 	}
+
+	$scope.removeIngredient = function(detail) {
+		if(detail.detailId === undefined) {
+			delete $scope.foodDetails[detail.ingredient.id]
+		}
+	}
+
+	$scope.saveIngredient = function(detail) {
+		FoodDetailModel.add($scope.selectedEntry, detail.ingredient, detail.servings).then( function(_detail){
+			ingredientId = _detail.get('ingredientId').id
+			
+			$scope.foodDetails[ingredientId].detailId = _detail.id
+			Flash.sendMessage({message: 'Ingredient successfully saved to FoodDiaryEntries'}, 'success')	
+		}, function(reason) {
+			Flash.sendMessage(reason, 'danger')
+		})
+	}
+
 
 	proccessEntry = function(entry) {
 		$scope.foodTags = []
@@ -213,32 +233,3 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	$scope.getEntryCount();
 	return;
 })
-
-
-angular.module('webtools.controllers').controller('AttachIngredientsCtrl', function($scope, $modalInstance, ingredients) {
-	$scope.ingredients = ingredients;
-	$scope.searchFilter = {
-		'attributes' : {
-			'ingredientName' : ''
-		}
-	}
-	$scope.selectedIngredient = null
-
-	$scope.ok = function() {
-		$modalInstance.close($scope.selectedIngredient)
-	}
-
-	$scope.cancel = function() {
-		$modalInstance.dismiss('cancel');
-	}
-
-	$scope.select = function(ingredient) {
-		$scope.selectedIngredient = ingredient
-	}
-
-
-	return;
-})
-
-
-

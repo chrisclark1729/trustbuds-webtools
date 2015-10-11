@@ -46,8 +46,16 @@ table td {
 	background-color: #2980B9 !important;
 }
 
+.navigation {
+	margin-top: 30px;
+}
+
 .main {
-	margin-top: 50px;
+	margin-left: 50px;
+	margin-right: 50px;
+}
+
+.navigation {
 	margin-left: 50px;
 	margin-right: 50px;
 }

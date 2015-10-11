@@ -23,11 +23,11 @@
         <ul class="list-group list-group-display">
           <li ng-repeat='ingredient in ingredients | filter:searchFilter.attributes.ingredientName' 
               class='list-group-item'
-              ng-click='select(ingredient)'
-              ng-class='{ selected : selectedIngredient.id == ingredient.id}'
+              ng-click='toggleSelect(ingredient)'
+              ng-class='{ selected : isSelected(ingredient) }'
               style='cursor:pointer'
             >
-            {{ingredient.get('ingredientName')}}
+            {{ingredient.get('ingredientName')}} - <em>{{ingredient.get('unitOfMeasurement')}}</em>
           </li>
         </ul>
       </div>

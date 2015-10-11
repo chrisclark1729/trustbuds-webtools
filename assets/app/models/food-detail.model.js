@@ -24,17 +24,18 @@ angular.module('webtools.models').service('FoodDetailModel', function($q) {
 	this.add = function(foodEntry, ingredient, servings) {
 		var deferred = $q.defer();
 
-		FoodDetail.set('foodDiaryEntryId', foodEntry)
-		FoodDetail.set('ingredientId', ingredient)
-		FoodDetail.set('numberOfServings', servings)
+		foodDetail = new FoodDetail()
 
-		FoodDetail.save( null, {
+		foodDetail.set('foodDiaryEntryId', foodEntry)
+		foodDetail.set('ingredientId', ingredient)
+		foodDetail.set('numberOfServings', Number(servings))
+
+		foodDetail.save( null, {
 			success: function(result) {
-				console.log(result);
 				deferred.resolve(result);
 			},
-			error: function(reason) {
-				deferred.reject(reason);				
+			error: function(detail, error) {
+				deferred.reject(error);
 			}
 
 		})

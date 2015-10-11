@@ -10,6 +10,11 @@
 	<div class='container-fluid'>
 	
 		<div class='navigation'>
+			<div class='row'>
+				<div class='col-md-12'>
+					<flash-panel></flash-panel>
+				</div>
+			</div>
 		</div>
 
 		<div class='main' ng-controller='FoodEntryCtrl'>
@@ -43,7 +48,7 @@
 
 						</table>
 						<div class='panel-footer more' ng-click='more()'>
-							More <span class='glyphicon glyphicon-plus' aria-hidden='true'></span>
+							More <span class='glyphicon glyphicon-refresh' aria-hidden='true'></span>
 						</div>
 					</div>
 				</div>
@@ -119,18 +124,25 @@
 										<div class='col-md-12'>
 											<div class='panel panel-default'>
 
-												<table class='table table-bordered' ng-if='detailsLength() > 0'>
+												<table class='table table-bordered' 
+															 ng-if='detailsLength() > 0'
+															 uib-popover="Click quantity to update" popover-trigger="mouseenter"
+											 				 popover-placement='left'
+											 	>
 													<tbody>
 														<tr ng-repeat='detail in foodDetails'>
 															<td>{{detail['ingredient'].get('ingredientName')}}</td>
-															<td>{{detail['servings']}}</td>
+															<td>
+																<update value="detail['servings']"></update>
+															</td>
 															<td>{{detail['ingredient'].get('unitOfMeasurement')}}</td>
-															<td><button class='btn btn-danger btn-xs'>remove</button></td>
+															<td><button class='btn btn-success btn-xs' ng-click='saveIngredient(detail)'>save</button></td>
+															<td><button class='btn btn-danger btn-xs' ng-click='removeIngredient(detail)'>remove</button></td>
 														</tr>
 													</tbody>
 												</table>
 
-												<div class='panel-footer more' ng-click='attachIngredient()'>
+												<div class='panel-footer more' ng-click='attachIngredients()'>
 													Add <span class='glyphicon glyphicon-plus' aria-hidden='true'></span>
 												</div>
 											</div>
@@ -158,19 +170,31 @@
 	<script type='text/javascript' src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.0.js"></script>
 	<script type='text/javascript' src='bower_components/angular-local-storage/dist/angular-local-storage.min.js'></script>
 	<script type='text/javascript' src='http://www.parsecdn.com/js/parse-1.0.19.min.js'></script>
-	<script type='text/javascript' src='assets/constants.js'></script>
+
+	<script type='text/javascript' src='assets/app/constants.js'></script>
+
+	<script type='text/javascript' src='assets/app/services/service.js'></script>
+	<script type='text/javascript' src='assets/app/services/geocode.service.js'></script>
+	<script type='text/javascript' src='assets/app/services/flash.service.js'></script>
+
+	<script type='text/javascript' src='assets/app/directives/directives.js'></script>
+	<script type='text/javascript' src='assets/app/directives/flash-panel.directive.js'></script>
+	<script type='text/javascript' src='assets/app/directives/image-adjust.directive.js'></script>
+	<script type='text/javascript' src='assets/app/directives/script.directive.js'></script>
+	<script type='text/javascript' src='assets/app/directives/update.directive.js'></script>
+
+	<script type='text/javascript' src='assets/app/models/models.js'></script>
+	<script type='text/javascript' src='assets/app/models/food-entry.model.js'></script>
+	<script type='text/javascript' src='assets/app/models/food-tag.model.js'></script>
+	<script type='text/javascript' src='assets/app/models/food-detail.model.js'></script>
+	<script type='text/javascript' src='assets/app/models/ingredient.model.js'></script>
+
+	<script type='text/javascript' src='assets/app/controllers/controllers.js'></script>
+	<script type='text/javascript' src='assets/app/controllers/food-entry.controller.js'></script>
+	<script type='text/javascript' src='assets/app/controllers/attach-ingredients.controller.js'></script>
+
+	<script type='text/javascript' src='assets/app/main.js'></script>
 	<script type='text/javascript' src='assets/credentials.js'></script>
-	<script type='text/javascript' src='assets/service.js'></script>
-	<script type='text/javascript' src='assets/directives.js'></script>
-
-	<script type='text/javascript' src='assets/models/models.js'></script>
-	<script type='text/javascript' src='assets/models/food-entry.model.js'></script>
-	<script type='text/javascript' src='assets/models/food-tag.model.js'></script>
-	<script type='text/javascript' src='assets/models/food-detail.model.js'></script>
-	<script type='text/javascript' src='assets/models/ingredient.model.js'></script>
-
-	<script type='text/javascript' src='assets/controllers.js'></script>
-	<script type='text/javascript' src='assets/main.js'></script>
 	<script type='text/google_maps_key'></script>
 
 </body>
