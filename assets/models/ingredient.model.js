@@ -36,5 +36,16 @@ angular.module('webtools.models').service('IngredientModel', function($q) {
 
 	}
 
+	this.find = function(ingredientId, ingredients) {
+		var _ingredient = null
+		angular.forEach(ingredients, function(ingredient) {
+			if(ingredient.id === ingredientId) {
+				_ingredient = ingredient
+			}
+		})
+
+		return _ingredient;
+	}
+
 	return this;
 })

@@ -52,7 +52,8 @@
 				<div class='col-md-10'>
 					<div class='panel panel-default' ng-if='selectedEntry != null'>
 
-						<div class='panel-heading'>{{selectedEntry.get('locationName')}}
+						<div class='panel-heading'>
+							<h5>{{selectedEntry.get('mealName')}}</h5>
 						</div>
 
 						<div class='panel-body'>
@@ -79,6 +80,7 @@
 
 								<div class='col-md-6'>
 
+									<!-- Tags -->
 									<div class='row'>
 										<div class='col-md-1'>
 											<h3>Tags</h3>
@@ -92,6 +94,7 @@
 
 									</div>
 
+									<!-- Location -->
 									<div class='row'>
 										<div class='col-md-2'>
 											<h3>Location</h3>
@@ -101,6 +104,37 @@
 												<strong>{{selectedEntry.get('locationName')}}</strong>
 												{{selectedEntry.get('address')}}
 											</address>
+										</div>
+									</div>
+
+									<!-- Ingredients Header -->
+									<div class='row'>
+										<div class='col-md-2'>
+											<h3>Ingredients</h3>
+										</div>
+									</div>
+
+									<!-- Ingredients Info -->
+									<div class='row'>
+										<div class='col-md-12'>
+											<div class='panel panel-default'>
+
+												<table class='table table-bordered' ng-if='detailsLength() > 0'>
+													<tbody>
+														<tr ng-repeat='detail in foodDetails'>
+															<td>{{detail['ingredient'].get('ingredientName')}}</td>
+															<td>{{detail['servings']}}</td>
+															<td>{{detail['ingredient'].get('unitOfMeasurement')}}</td>
+															<td><button class='btn btn-danger btn-xs'>remove</button></td>
+														</tr>
+													</tbody>
+												</table>
+
+												<div class='panel-footer more' ng-click='attachIngredient()'>
+													Add <span class='glyphicon glyphicon-plus' aria-hidden='true'></span>
+												</div>
+											</div>
+
 										</div>
 									</div>
 

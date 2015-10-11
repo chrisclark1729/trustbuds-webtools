@@ -21,6 +21,26 @@ angular.module('webtools.models').service('FoodDetailModel', function($q) {
 		return deferred.promise;
 	}
 
+	this.add = function(foodEntry, ingredient, servings) {
+		var deferred = $q.defer();
+
+		FoodDetail.set('foodDiaryEntryId', foodEntry)
+		FoodDetail.set('ingredientId', ingredient)
+		FoodDetail.set('numberOfServings', servings)
+
+		FoodDetail.save( null, {
+			success: function(result) {
+				console.log(result);
+				deferred.resolve(result);
+			},
+			error: function(reason) {
+				deferred.reject(reason);				
+			}
+
+		})
+
+		return deferred.promise
+	}
 
 	return this;
 })

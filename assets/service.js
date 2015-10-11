@@ -2,6 +2,7 @@ angular.module('webtools.service', [])
 
 angular.module('webtools.service').service('Geocode', function($q, $window, $rootScope, localStorageService) {
 	var geocoder = null
+	
 	// watch window for google attachment
 	$rootScope.$watch(function() {
 		return $window.google

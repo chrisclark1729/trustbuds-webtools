@@ -3,6 +3,7 @@ angular.module('webtools.controllers', [])
 angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	$scope, 
 	$q,
+	$uibModal,
 	FoodEntryModel,
 	IngredientModel,
 	FoodDetailModel,
@@ -17,7 +18,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	$scope.entries = []
 	$scope.ingredients = []
 
-	$scope.foodDetails = []
+	$scope.foodDetails = {}
 	$scope.foodTags = []
 
 	_entryIndex = null;
@@ -42,10 +43,25 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 	$scope.getDetails = function(entry) {
 		FoodDetailModel.get(entry).then(function(details) {
-			$scope.foodDetails = details
+			// Create a hash of ingredient id to ingredient.
+			angular.forEach(details, function(detail) {
+				ingredientId = detail.get('ingredientId').id
+				ingredient = IngredientModel.find(ingredientId, $scope.ingredients)
+
+				$scope.foodDetails[ingredientId] = {
+					"ingredient" : ingredient,
+					"servings" : detail.get('numberOfServings')
+				}
+
+			})
 		}, function(reason){
 
 		})
+	}
+
+	$scope.detailsLength = function() {
+		length = Object.keys($scope.foodDetails).length
+		return length;
 	}
 
 	$scope.getTags = function(entry) {
@@ -58,7 +74,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 	$scope.getAddress = function(entry) {
 		GeoPoint = entry.get('location')
-		
+
 		Geocode.reverseGeocode(GeoPoint).then(function(address) {
 			entry.set('address', address)
 		}, function(reason) {
@@ -66,9 +82,25 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		});
 	}
 
+	$scope.attachIngredient = function() {
+		var modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'attach-ingredients.html',
+      controller: 'AttachIngredientsCtrl',
+      ingredients: $scope.ingredients,
+      resolve: {
+        ingredients: function () {
+          return;
+        }
+      }	
+		});
+
+		console.log(modalInstance)
+	}
+
 	proccessEntry = function(entry) {
 		$scope.foodTags = []
-		$scope.foodDetails = []
+		$scope.foodDetails = {}
 
 		$scope.getDetails(entry)
 		$scope.getTags(entry)
@@ -152,15 +184,6 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		})
 	}
 
-	// Get a single food entry by id.
-	$scope.get = function(entryId) {
-		FoodEntryModel.get(entryId).then(function() {
-
-		}, function() {
-
-		})
-	}
-
 	// Update a food entry by id.
 	$scope.update = function(entryId) {
 		FoodEntryModel.update(entryId).then(function() {
@@ -182,5 +205,11 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	$scope.getAllEntries(0);
 	$scope.getAllIngredients();
 	$scope.getEntryCount();
-
+	return;
 })
+
+
+angular.module('webtools.controllers').controller('AttachIngredientsCtrl', function($scope, $modalInstance, ingredients) {
+	return;
+})
+
