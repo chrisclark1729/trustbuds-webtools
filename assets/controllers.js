@@ -87,15 +87,21 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
       animation: true,
       templateUrl: 'attach-ingredients.html',
       controller: 'AttachIngredientsCtrl',
-      ingredients: $scope.ingredients,
       resolve: {
         ingredients: function () {
-          return;
+          return $scope.ingredients;
         }
       }	
 		});
 
-		console.log(modalInstance)
+
+		modalInstance.result.then(function (ingredient) {
+			$scope.foodDetails[ingredient.id] = {
+				'ingredient': ingredient,
+				'servings' : 0
+			}
+    });
+
 	}
 
 	proccessEntry = function(entry) {
@@ -210,6 +216,29 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 
 angular.module('webtools.controllers').controller('AttachIngredientsCtrl', function($scope, $modalInstance, ingredients) {
+	$scope.ingredients = ingredients;
+	$scope.searchFilter = {
+		'attributes' : {
+			'ingredientName' : ''
+		}
+	}
+	$scope.selectedIngredient = null
+
+	$scope.ok = function() {
+		$modalInstance.close($scope.selectedIngredient)
+	}
+
+	$scope.cancel = function() {
+		$modalInstance.dismiss('cancel');
+	}
+
+	$scope.select = function(ingredient) {
+		$scope.selectedIngredient = ingredient
+	}
+
+
 	return;
 })
+
+
 

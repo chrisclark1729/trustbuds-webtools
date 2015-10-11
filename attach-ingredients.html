@@ -1,3 +1,40 @@
-<div>
-	<h1>hello world</h1>
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click='cancel()' aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h3 class="modal-title">Ingredients</h3>
+  </div>
+  <div class="modal-body">
+    <div class='row' style='margin-bottom:20px;'>
+      <div class='col-md-8'>
+
+        <div class="input-group">
+          <span class="input-group-addon" id="sizing-addon2">
+            <span class='glyphicon glyphicon-search' ng-model='searchFilter' aria-hidden="true"></span>
+          </span>
+          <input type="text" ng-model='searchFilter.attributes.ingredientName' class="form-control" placeholder="search" aria-describedby="sizing-addon2">
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class='row'>
+      <div class='col-md-12'>
+        <ul class="list-group list-group-display">
+          <li ng-repeat='ingredient in ingredients | filter:searchFilter.attributes.ingredientName' 
+              class='list-group-item'
+              ng-click='select(ingredient)'
+              ng-class='{ selected : selectedIngredient.id == ingredient.id}'
+              style='cursor:pointer'
+            >
+            {{ingredient.get('ingredientName')}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click='cancel()'>Close</button>
+    <button type="button" class="btn btn-primary" ng-click='ok()'>Add</button>
+  </div>
 </div>

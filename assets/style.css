@@ -42,7 +42,7 @@ table td {
 	padding: 15px !important;
 }
 
-table tbody .selected {
+.selected {
 	background-color: #2980B9 !important;
 }
 
@@ -116,4 +116,13 @@ table tbody .selected {
 
 .location h5 {
 	margin-top: 2px;
+}
+
+.attach-modal {
+	margin-top: 100px;
+}
+
+.list-group-display {
+	height: 500px;
+	overflow: scroll;
 }
