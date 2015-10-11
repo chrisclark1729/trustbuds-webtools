@@ -34,7 +34,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 			$scope.entries = $scope.entries.concat(entries)
 			deferred.resolve()
 		}, function(reason) {
-			Flash.sendMessage(reason, 'danger')
+			Flash.sendMessage(reason.message, 'danger')
 			deferred.reject()
 		});
 
@@ -56,7 +56,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 			})
 		}, function(reason){
-			Flash.sendMessage(reason, 'danger')
+			Flash.sendMessage(reason.message, 'danger')
 		})
 	}
 
@@ -69,7 +69,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		FoodTagModel.get(entry).then(function(tags) {
 			$scope.foodTags = tags
 		}, function(reason) {
-			Flash.sendMessage(reason, 'danger')
+			Flash.sendMessage(reason.message, 'danger')
 		});
 	}
 
@@ -103,12 +103,19 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 				}
 			})
     });
-
 	}
 
 	$scope.removeIngredient = function(detail) {
 		if(detail.detailId === undefined) {
 			delete $scope.foodDetails[detail.ingredient.id]
+		} else {
+			FoodDetailModel.remove(detail.detailId).then( function() {
+				Flash.sendMessage('FoodDetail deleted', 'warning')
+				delete $scope.foodDetails[detail.ingredient.id]
+			}, function(reason) {
+				Flash.sendMessage(reason.message, 'danger')
+			})
+
 		}
 	}
 
@@ -117,9 +124,9 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 			ingredientId = _detail.get('ingredientId').id
 			
 			$scope.foodDetails[ingredientId].detailId = _detail.id
-			Flash.sendMessage({message: 'Ingredient successfully saved to FoodDiaryEntries'}, 'success')	
+			Flash.sendMessage('Ingredient successfully saved to FoodDiaryEntries', 'success')	
 		}, function(reason) {
-			Flash.sendMessage(reason, 'danger')
+			Flash.sendMessage(reason.message, 'danger')
 		})
 	}
 
@@ -150,7 +157,9 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	}
 
 	$scope.isSelected = function(entry) {
-		if ($scope.selectedEntry === null || $scope.selectedEntry === undefined || entry === null || entry === undefined) {
+		if ($scope.selectedEntry === null || 
+			  $scope.selectedEntry === undefined || 
+			  entry === null || entry === undefined) {
 			return false;
 		}
 
@@ -197,16 +206,16 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	$scope.getAllIngredients = function() {
 		IngredientModel.getAll().then(function(ingredients) {
 			$scope.ingredients = ingredients; 
-		}, function() {
-
+		}, function(reason) {
+			Flash.sendMessage(reason.message, 'danger')
 		});
 	}
 
 	$scope.getEntryCount = function() {
 		FoodEntryModel.getCount().then(function(count) {
 			$scope.totalEntryCount = count;
-		}, function() {
-
+		}, function(reason) {
+			Flash.sendMessage(reason.message, 'danger')
 		})
 	}
 

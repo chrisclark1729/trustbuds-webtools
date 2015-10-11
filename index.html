@@ -7,7 +7,7 @@
 </head>
 
 <body ng-app='webtools'>
-	<div class='container-fluid'>
+	<div class='container-fluid' ng-cloak>
 	
 		<div class='navigation'>
 			<div class='row'>
@@ -23,7 +23,7 @@
 				<!-- Picture table -->
 				<div class='col-md-2'>
 					<div class='panel panel-default'>
-						<div class='panel-heading' ng-click='showInfo = !showInfo'>Food Diary Entries - Total: {{totalEntryCount}}</div>
+						<div class='panel-heading' style='cursor: pointer' ng-mouseleave='showInfo = false' ng-mouseenter='showInfo = true'>Food Diary Entries - Total: {{totalEntryCount}}</div>
 						<div class='panel-body' ng-if='showInfo'>
 							Press more button to load more entries.
 							Select a picture to edit diary entry.
@@ -137,7 +137,12 @@
 															</td>
 															<td>{{detail['ingredient'].get('unitOfMeasurement')}}</td>
 															<td><button class='btn btn-success btn-xs' ng-click='saveIngredient(detail)'>save</button></td>
-															<td><button class='btn btn-danger btn-xs' ng-click='removeIngredient(detail)'>remove</button></td>
+															<td>
+																<button class='btn btn-danger btn-xs' 
+																				uib-popover='Remove?'
+																				popover-trigger='click'
+																				popover-placement='right'
+																>remove</button></td>
 														</tr>
 													</tbody>
 												</table>

@@ -7,6 +7,10 @@ body {
 	background-repeat: both;
 }
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
 .header-fixed {
 	width: 100%;
 }

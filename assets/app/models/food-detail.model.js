@@ -43,5 +43,23 @@ angular.module('webtools.models').service('FoodDetailModel', function($q) {
 		return deferred.promise
 	}
 
+	this.remove = function(foodDetailId) {
+		var deferred = $q.defer();
+
+		foodDetail = new FoodDetail();
+		foodDetail.set('id', foodDetailId);
+
+		foodDetail.destroy({
+			success: function(result) {
+				deferred.resolve()
+			},
+			error: function(detail, error) {
+				deferred.reject(error)
+			}
+		})
+
+		return deferred.promise
+	}
+
 	return this;
 })
