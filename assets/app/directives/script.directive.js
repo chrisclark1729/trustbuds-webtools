@@ -1,4 +1,4 @@
-angular.module('webtools.directives').directive('script', function(Credentials, $q, $window, Loaded) {
+angular.module('webtools.directives').directive('script', function(Credentials, $q, $window, Loaded, $templateCache) {
 
 	function load_script() {
 		var script = document.createElement('script')
@@ -43,7 +43,17 @@ angular.module('webtools.directives').directive('script', function(Credentials, 
 			}
 
 		}
+
 		return;
+	}
+
+	compile = function(element, attribute) {
+		if(attribute.type === 'text/ng-template') {
+			var templateUrl = attribute.id
+			var text = element[0].text
+			
+			$templateCache.put(templateUrl, text)
+		}
 	}
 
 	return {

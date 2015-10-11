@@ -138,11 +138,8 @@
 															<td>{{detail['ingredient'].get('unitOfMeasurement')}}</td>
 															<td><button class='btn btn-success btn-xs' ng-click='saveIngredient(detail)'>save</button></td>
 															<td>
-																<button class='btn btn-danger btn-xs' 
-																				uib-popover='Remove?'
-																				popover-trigger='click'
-																				popover-placement='right'
-																>remove</button></td>
+																<wt-popover></wt-popover>
+															</td>
 														</tr>
 													</tbody>
 												</table>
@@ -170,7 +167,6 @@
 
 	</div>
 
-
 	<script type='text/javascript' src='bower_components/angular/angular.js'></script>
 	<script type='text/javascript' src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.0.js"></script>
 	<script type='text/javascript' src='bower_components/angular-local-storage/dist/angular-local-storage.min.js'></script>
@@ -190,6 +186,7 @@
 	<script type='text/javascript' src='assets/app/directives/frame-expand.directive.js'></script>
 	<script type='text/javascript' src='assets/app/directives/script.directive.js'></script>
 	<script type='text/javascript' src='assets/app/directives/update.directive.js'></script>
+	<script type='text/javascript' src='assets/app/directives/popover.directive.js'></script>
 
 	<script type='text/javascript' src='assets/app/models/models.js'></script>
 	<script type='text/javascript' src='assets/app/models/food-entry.model.js'></script>

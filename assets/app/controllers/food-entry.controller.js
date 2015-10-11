@@ -75,6 +75,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 	$scope.getAddress = function(entry) {
 		GeoPoint = entry.get('location')
+		if(GeoPoint === null) return
 
 		Geocode.reverseGeocode(GeoPoint).then(function(address) {
 			entry.set('address', address)
@@ -115,19 +116,23 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 			}, function(reason) {
 				Flash.sendMessage(reason.message, 'danger')
 			})
-
 		}
 	}
 
 	$scope.saveIngredient = function(detail) {
-		FoodDetailModel.add($scope.selectedEntry, detail.ingredient, detail.servings).then( function(_detail){
-			ingredientId = _detail.get('ingredientId').id
-			
-			$scope.foodDetails[ingredientId].detailId = _detail.id
-			Flash.sendMessage('Ingredient successfully saved to FoodDiaryEntries', 'success')	
-		}, function(reason) {
-			Flash.sendMessage(reason.message, 'danger')
-		})
+		if (detail.detailId === undefined) {
+			FoodDetailModel.add($scope.selectedEntry, detail.ingredient, detail.servings).then( function(_detail){
+				ingredientId = _detail.get('ingredientId').id
+
+				$scope.foodDetails[ingredientId].detailId = _detail.id
+				Flash.sendMessage('Ingredient successfully saved to FoodDiaryEntries', 'success')	
+			}, function(reason) {
+				Flash.sendMessage(reason.message, 'danger')
+			})
+		} else {
+
+		}
+		
 	}
 
 

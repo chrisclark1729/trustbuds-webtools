@@ -1,11 +1,16 @@
 angular.module('webtools.controllers').controller('AttachIngredientsCtrl', function($scope, $modalInstance, ingredients) {
 	$scope.ingredients = ingredients;
+	$scope.direction = 'asc'
+	$scope.directionClass = 'glyphicon-arrow-down'
 
 	$scope.searchFilter = {
 		'attributes' : {
 			'ingredientName' : ''
 		}
 	}
+
+	$scope.reverse = false
+	$scope.predicate = 'attributes.ingredientName' 
 
 	$scope.selectedIngredients = []
 
@@ -53,6 +58,18 @@ angular.module('webtools.controllers').controller('AttachIngredientsCtrl', funct
 
 	$scope.cancel = function() {
 		$modalInstance.dismiss('cancel');
+	}
+
+	$scope.toggleDirection = function() {
+		$scope.reverse = !$scope.reverse;
+
+		if ($scope.direction == 'asc') {
+			$scope.direction = 'dsc'
+			$scope.directionClass = 'glyphicon-arrow-up'
+		} else {
+			$scope.direction = 'asc'
+			$scope.directionClass = 'glyphicon-arrow-down'
+		}
 	}
 
 	return;
