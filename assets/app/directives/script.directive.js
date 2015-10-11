@@ -1,4 +1,4 @@
-angular.module('webtools.directives').directive('script', function(Credentials, $q, $window) {
+angular.module('webtools.directives').directive('script', function(Credentials, $q, $window, Loaded) {
 
 	function load_script() {
 		var script = document.createElement('script')
@@ -9,6 +9,7 @@ angular.module('webtools.directives').directive('script', function(Credentials, 
 
 	function lazyLoadApi() {
 		var deferred = $q.defer();
+
 		$window.initialize = function() {
 			deferred.resolve()
 		}
@@ -27,12 +28,17 @@ angular.module('webtools.directives').directive('script', function(Credentials, 
 
 		if(attribute.type === 'text/google_maps_key') {
 			if($window.google && $window.google.maps) {
-
+				console.log('google maps loaded')
 			} else {
 				lazyLoadApi().then(function() {
 					if($window.google && $window.google.maps) {
 						element.remove();
+						Loaded.resolve();
+					} else {
+						console.log('could not find window.google')
 					}
+				}, function() {
+					console.log ('something went wrong')
 				})
 			}
 

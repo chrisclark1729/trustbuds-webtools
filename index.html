@@ -57,7 +57,7 @@
 				<div class='col-md-10'>
 					<div class='panel panel-default' ng-if='selectedEntry != null'>
 
-						<div class='panel-heading'>
+						<div class='panel-heading title'>
 							<h5>{{selectedEntry.get('mealName')}}</h5>
 						</div>
 
@@ -170,16 +170,19 @@
 	<script type='text/javascript' src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.0.js"></script>
 	<script type='text/javascript' src='bower_components/angular-local-storage/dist/angular-local-storage.min.js'></script>
 	<script type='text/javascript' src='http://www.parsecdn.com/js/parse-1.0.19.min.js'></script>
+	<script type='text/google_maps_key'></script>
 
 	<script type='text/javascript' src='assets/app/constants.js'></script>
 
 	<script type='text/javascript' src='assets/app/services/service.js'></script>
 	<script type='text/javascript' src='assets/app/services/geocode.service.js'></script>
 	<script type='text/javascript' src='assets/app/services/flash.service.js'></script>
+	<script type='text/javascript' src='assets/app/services/loaded.service.js'></script>
 
 	<script type='text/javascript' src='assets/app/directives/directives.js'></script>
 	<script type='text/javascript' src='assets/app/directives/flash-panel.directive.js'></script>
 	<script type='text/javascript' src='assets/app/directives/image-adjust.directive.js'></script>
+	<script type='text/javascript' src='assets/app/directives/frame-expand.directive.js'></script>
 	<script type='text/javascript' src='assets/app/directives/script.directive.js'></script>
 	<script type='text/javascript' src='assets/app/directives/update.directive.js'></script>
 
@@ -195,6 +198,5 @@
 
 	<script type='text/javascript' src='assets/app/main.js'></script>
 	<script type='text/javascript' src='assets/credentials.js'></script>
-	<script type='text/google_maps_key'></script>
 
 </body>

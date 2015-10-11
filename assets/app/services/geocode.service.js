@@ -1,13 +1,9 @@
-angular.module('webtools.service').service('Geocode', function($q, $window, $rootScope, localStorageService) {
+angular.module('webtools.service').service('Geocode', function($q, $window, $rootScope, localStorageService, Loaded) {
 	var geocoder = null
-	
-	// watch window for google attachment
-	$rootScope.$watch(function() {
-		return $window.google
-	}, function(newValue, oldValue) {
-		if(typeof newValue !== 'undefined') {
-			geocoder = new $window.google.maps.Geocoder;
-		}
+
+	// Wait until the loader resolves.
+	Loaded.promise().then( function() {
+		geocoder = new google.maps.Geocoder();
 	})
 
 	geoKey = function(lng, lat) {
