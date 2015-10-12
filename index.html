@@ -141,10 +141,10 @@
 											 				 popover-placement='left'
 											 	>
 													<tbody>
-														<tr ng-repeat='detail in foodDetails'>
+														<tr ng-repeat='(key, detail) in foodDetails'>
 															<td>{{detail['ingredient'].get('ingredientName')}}</td>
 															<td>
-																<update value="detail['servings']"></update>
+																<update value="detail['servings']" key='{{key}}'></update>
 															</td>
 															<td>{{detail['ingredient'].get('unitOfMeasurement')}}</td>
 															<td><button class='btn btn-success btn-xs' ng-click='saveIngredient(detail)'>save</button></td>

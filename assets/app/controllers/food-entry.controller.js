@@ -137,46 +137,8 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		
 	}
 
-	buildAmount = function(amount) {
-		if(amount === undefined) return 0
-		if(amount === 0 || amount >= 1) return amount	
-
-		return measurement('Mass')
-			.convert(amount)
-			.from(measurement.Unit.Mass.GRAM)
-			.to(measurement.Unit.Mass.MILLIGRAM)
-	} 
-
-	buildUnit = function(amount) {
-		if(amount === undefined) return ''
-		if (amount === 0 || amount >= 1) {
-			return 'g'
-		} else {
-			return 'mg'
-		}
-	}
-
-	buildHash = function(amount, name, size) {
-		return {
-			'amount' : buildAmount(amount),
-			'unit' : buildUnit(amount),
-			'name' : name,
-			'size' : size
-		}
-	}
-
-	// Builds an array of nutrition maps
 	$scope.buildNutrition = function(entry) {
-		$scope.nutritionFacts = [
-			buildHash(entry.get('calories'), 'Calories', 'large'),
-			buildHash(entry.get('gramsFat'), 'Total Fat', 'large'),
-			buildHash(entry.get('gramsSaturatedFat'), 'Saturated Fat', 'medium'),
-			buildHash(entry.get('gramsTransFat'), 'Trans Fat', 'medium'),
-			buildHash(entry.get('gramsCarbs'), 'Total Carbs', 'large'),
-			buildHash(entry.get('gramsFiber'), 'Dietary Fiber', 'medium'),
-			buildHash(entry.get('gramsSugar'), 'Sugars', 'medium'),
-			buildHash(entry.get('gramsProtein'), 'Total Sugars', 'large')
-		]
+		$scope.nutritionFacts = FoodEntryModel.buildNutrition(entry)
 	}
 
 	proccessEntry = function(entry) {
@@ -267,6 +229,19 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 			Flash.sendMessage(reason.message, 'danger')
 		})
 	}
+
+	// Listen for the servings to be updated
+	$scope.$on('update-servings', function(event, message) {
+		detail = $scope.foodDetails[message.ingredientId]
+		ingredient = detail.ingredient
+		servings = message.servings
+
+		angular.forEach($scope.nutritionFacts, function(fact) {
+			FoodEntryModel.updateEntryNutrition($scope.selectedEntry, fact.type, servings[0], servings[1], ingredient)
+		})
+
+		$scope.buildNutrition($scope.selectedEntry)
+	})
 
 	// Update a food entry by id.
 	$scope.update = function(entryId) {
