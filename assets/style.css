@@ -153,3 +153,33 @@ table td {
 	margin-left: 5px;
 	vertical-align: -3px;
 }
+
+.nutrition div div div {
+	border-bottom: 1.5px solid #eee;
+}
+
+.nutrition h3 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.nutrition hr {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.nutrition h4 {
+	font-size: 20px;
+	display: inline-block;
+	font-weight: 700;
+}
+
+.nutrition span {
+	margin-left: 10px;
+	font-weight: 300;
+}
+
+.nutrition .shift {
+	margin-left: 20px;
+	padding-right: 0px;
+}

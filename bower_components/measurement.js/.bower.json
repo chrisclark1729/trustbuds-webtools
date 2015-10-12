@@ -1,0 +1,31 @@
+{
+  "name": "measurement.js",
+  "main": "measurement.js",
+  "version": "0.1.4",
+  "homepage": "https://github.com/arnbak/measurement.js",
+  "authors": [
+    "Lars Arnbak <arnbak@gmail.com>"
+  ],
+  "description": "Nice unit of measure conversion, forked from https://github.com/Philzen/measurement.js",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "0.1.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.1.4",
+    "commit": "3e3c9bd53084a10c899588d0a98e5aaffab4db14"
+  },
+  "_source": "git://github.com/arnbak/measurement.js.git",
+  "_target": "~0.1.4",
+  "_originalSource": "measurement.js",
+  "_direct": true
+}

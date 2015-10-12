@@ -1,0 +1,21 @@
+{
+  "name": "measurement.js",
+  "main": "measurement.js",
+  "version": "0.1.2",
+  "homepage": "https://github.com/arnbak/measurement.js",
+  "authors": [
+    "Lars Arnbak <arnbak@gmail.com>"
+  ],
+  "description": "Nice unit of measure conversion, forked from https://github.com/Philzen/measurement.js",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

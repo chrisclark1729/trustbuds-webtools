@@ -58,7 +58,18 @@
 					<div class='panel panel-default' ng-if='selectedEntry != null'>
 
 						<div class='panel-heading title'>
-							<h5>{{selectedEntry.get('mealName')}}</h5>
+							<div class='row'>
+
+								<div class='col-md-5'>
+									<h5>Meal Name: {{selectedEntry.get('mealName')}}</h5>
+								</div>
+
+								<div class='col-md-2 col-md-offset-5'>
+									<h5>Created at: {{selectedEntry.createdAt | date:'MMM d, yyyy' }}</h5>
+								</div>
+
+							</div>
+
 						</div>
 
 						<div class='panel-body'>
@@ -152,6 +163,28 @@
 										</div>
 									</div>
 
+									<!-- Nutritional Info -->
+									<div class='row'>
+										<div class='col-md-5'>
+											<h3>Nutrition Facts</h3>
+											<div class='panel panel-default'>
+												<div class='panel-body nutrition'>
+
+													<div ng-repeat='fact in nutritionFacts'>
+
+														<div class='row'>
+															<div ng-class='[{ "col-md-11 col-md-offset-1" : fact.size == "medium"}, {"col-md-12" : fact.size == "large"}]'>
+																<h4><em>{{fact.name}}</em><h4><span>{{fact.amount | number:0}}{{fact.unit}}</span>
+															</div>
+														</div>
+
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+
 								</div>
 							</div>
 						</div>
@@ -171,6 +204,7 @@
 	<script type='text/javascript' src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.0.js"></script>
 	<script type='text/javascript' src='bower_components/angular-local-storage/dist/angular-local-storage.min.js'></script>
 	<script type='text/javascript' src='http://www.parsecdn.com/js/parse-1.0.19.min.js'></script>
+	<script type='text/javascript' src='bower_components/measurement.js/measurement.js'></script>
 	<script type='text/google_maps_key'></script>
 
 	<script type='text/javascript' src='assets/app/constants.js'></script>

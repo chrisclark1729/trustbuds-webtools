@@ -13,6 +13,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	$scope.totalEntryCount = 0;
 	$scope.selectedEntry = null
 	$scope.showInfo = false;
+	$scope.nutritionFacts = []
 
 	$scope.entries = []
 	$scope.ingredients = []
@@ -43,6 +44,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 	$scope.getDetails = function(entry) {
 		FoodDetailModel.get(entry).then(function(details) {
+
 			// Create a hash of ingredient id to ingredient.
 			angular.forEach(details, function(detail) {
 				ingredientId = detail.get('ingredientId').id
@@ -135,11 +137,53 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		
 	}
 
+	buildAmount = function(amount) {
+		if(amount === undefined) return 0
+		if(amount === 0 || amount >= 1) return amount	
+
+		return measurement('Mass')
+			.convert(amount)
+			.from(measurement.Unit.Mass.GRAM)
+			.to(measurement.Unit.Mass.MILLIGRAM)
+	} 
+
+	buildUnit = function(amount) {
+		if(amount === undefined) return ''
+		if (amount === 0 || amount >= 1) {
+			return 'g'
+		} else {
+			return 'mg'
+		}
+	}
+
+	buildHash = function(amount, name, size) {
+		return {
+			'amount' : buildAmount(amount),
+			'unit' : buildUnit(amount),
+			'name' : name,
+			'size' : size
+		}
+	}
+
+	// Builds an array of nutrition maps
+	$scope.buildNutrition = function(entry) {
+		$scope.nutritionFacts = [
+			buildHash(entry.get('calories'), 'Calories', 'large'),
+			buildHash(entry.get('gramsFat'), 'Total Fat', 'large'),
+			buildHash(entry.get('gramsSaturatedFat'), 'Saturated Fat', 'medium'),
+			buildHash(entry.get('gramsTransFat'), 'Trans Fat', 'medium'),
+			buildHash(entry.get('gramsCarbs'), 'Total Carbs', 'large'),
+			buildHash(entry.get('gramsFiber'), 'Dietary Fiber', 'medium'),
+			buildHash(entry.get('gramsSugar'), 'Sugars', 'medium'),
+			buildHash(entry.get('gramsProtein'), 'Total Sugars', 'large')
+		]
+	}
 
 	proccessEntry = function(entry) {
 		$scope.foodTags = []
 		$scope.foodDetails = {}
 
+		$scope.buildNutrition(entry)
 		$scope.getDetails(entry)
 		$scope.getTags(entry)
 		$scope.getAddress(entry)
