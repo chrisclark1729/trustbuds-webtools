@@ -24,9 +24,21 @@ angular.module('webtools.directives').directive('update', function($compile, $wi
 			}
 		})
 
+		validateZPlus = function(value) {
+			if (value === undefined || value === null) return false
+			if (isNaN(value)) return false
+			if (value < 0) return false	
+			return true
+		}
+
 		scope.close = function() {
 			setContent(element, scope, templateDisplay)
 			_state = 'display'
+
+			if(!validateZPlus(scope.value)) {
+				scope.value = _oldValue;
+				return
+			}
 
 			// message up to parent scope that the servings have been updated
 			scope.$emit('update-servings', {ingredientId: scope.key, servings: [Number(scope.value), Number(_oldValue)]})

@@ -121,6 +121,5 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 		entry.increment(type, diffServings)
 	}
 
-
 	return this;
 })

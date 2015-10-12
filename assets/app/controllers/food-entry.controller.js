@@ -151,6 +151,16 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		$scope.getAddress(entry)
 	}
 
+	reverseEntry = function(entry) {
+		FoodEntryModel.reverseNutritionChanges(entry)
+	}
+
+	// Set the selectedEntry to a deep copy of entry.
+	setEntry = function(entry) {
+		$scope.selectedEntry = null
+		$scope.selectedEntry = angular.copy(entry)
+	}
+
 	$scope.selectEntry = function(entry, index) {
 		if (isDefined($scope.selectedEntry) && isDefined(entry)) {
 			if ($scope.selectedEntry.id == entry.id) {
@@ -158,10 +168,12 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 				// deselect current selected entry.
 				$scope.selectedEntry = null;
 				_entryIndex = null;
+
 				return
 			}
 		}
-		$scope.selectedEntry = entry
+
+		setEntry(entry)
 		_entryIndex = index
 
 		proccessEntry($scope.selectedEntry)
@@ -183,7 +195,9 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		}
 
 		_entryIndex -= 1;
-		$scope.selectedEntry = $scope.entries[_entryIndex];
+
+		entry = $scope.entries[_entryIndex]
+		setEntry(entry)
 		proccessEntry($scope.selectedEntry)
 	}
 
@@ -201,14 +215,16 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 			_page += 1
 			$scope.getAllEntries(_page).then(function() {
 				_entryIndex += 1;
-				$scope.selectedEntry = $scope.entries[_entryIndex];
 
+				entry = $scope.entries[_entryIndex]
+				setEntry(entry)
 				proccessEntry($scope.selectedEntry)
 			})
 		} else {
 			_entryIndex += 1;
-			$scope.selectedEntry = $scope.entries[_entryIndex];
 
+			entry = $scope.entries[_entryIndex]
+			setEntry(entry)
 			proccessEntry($scope.selectedEntry)
 		}
 
@@ -241,6 +257,9 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		})
 
 		$scope.buildNutrition($scope.selectedEntry)
+
+		// apply digest scope as the event happened async from digest cycle.
+		$scope.$digest()
 	})
 
 	// Update a food entry by id.
