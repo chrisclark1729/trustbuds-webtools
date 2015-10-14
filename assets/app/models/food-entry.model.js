@@ -54,10 +54,18 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 		return deferred.promise;
 	}
 
-	this.update = function(id) {
+	// Update the foodEntry instance.
+	this.update = function(foodEntry) {
 		var deferred = $q.defer();
 
-		deferred.resolve();
+		foodEntry.save(null, {
+			success: function(entry) {
+				deferred.resolve(entry);
+			}, error: function(reason) {
+				deferred.reject(reason);
+			}
+		})
+
 		return deferred.promise; 
 	}
 
@@ -104,6 +112,8 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 			buildHash(entry.get('gramsFat'), 'Total Fat', 'large', 'gramsFat'),
 			buildHash(entry.get('gramsSaturatedFat'), 'Saturated Fat', 'medium', 'gramsSaturatedFat'),
 			buildHash(entry.get('gramsTransFat'), 'Trans Fat', 'medium', 'gramsTransFat'),
+			buildHash(entry.get('gramsCholesterol'), 'Cholesterol', 'large', 'gramsCholesterol'),
+			buildHash(entry.get('gramsSodium'), 'Sodium', 'large', 'gramsSodium'),
 			buildHash(entry.get('gramsCarbs'), 'Total Carbs', 'large', 'gramsCarbs'),
 			buildHash(entry.get('gramsFiber'), 'Dietary Fiber', 'medium', 'gramsFiber'),
 			buildHash(entry.get('gramsSugar'), 'Sugars', 'medium', 'gramsSugar'),

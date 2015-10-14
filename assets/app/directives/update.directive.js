@@ -12,6 +12,7 @@ angular.module('webtools.directives').directive('update', function($compile, $wi
 	link = function(scope, element, attribute) {
 		_state = 'display'
 		_oldValue = null
+		borderElement = angular.element(element[0].querySelector('div'))
 
 		element.on('mouseup', function(event) {
 			event.preventDefault()

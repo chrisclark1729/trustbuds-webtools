@@ -121,13 +121,27 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		}
 	}
 
+	// Need to update the array instances of the entries.
+	setEntryArray = function(entry) {
+		for(var i = 0; i < $scope.entries.length; ++i) {
+			if ($scope.entries[i].id === entry.id) {
+				$scope.entries[i] = entry
+			}
+		}
+	}
+
 	$scope.saveIngredient = function(detail) {
 		if (detail.detailId === undefined) {
 			FoodDetailModel.add($scope.selectedEntry, detail.ingredient, detail.servings).then( function(_detail){
 				ingredientId = _detail.get('ingredientId').id
-
 				$scope.foodDetails[ingredientId].detailId = _detail.id
-				Flash.sendMessage('Ingredient successfully saved to FoodDiaryEntries', 'success')	
+
+				// Update the selected food entry with new quantites
+				FoodEntryModel.update($scope.selectedEntry).then( function(entry) {
+					setEntryArray(entry)
+					Flash.sendMessage('Ingredient successfully saved to FoodDiaryEntries', 'success')	
+				})
+
 			}, function(reason) {
 				Flash.sendMessage(reason.message, 'danger')
 			})
