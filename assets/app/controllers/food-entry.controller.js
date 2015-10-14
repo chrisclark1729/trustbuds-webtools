@@ -126,6 +126,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		for(var i = 0; i < $scope.entries.length; ++i) {
 			if ($scope.entries[i].id === entry.id) {
 				$scope.entries[i] = entry
+				break;
 			}
 		}
 	}
@@ -146,7 +147,14 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 				Flash.sendMessage(reason.message, 'danger')
 			})
 		} else {
+			FoodDetailModel.update(detail.detailId, detail.servings).then(function(_detail) {
+				FoodEntryModel.update($scope.selectedEntry).then( function(entry) {
 
+					setEntryArray(entry);
+					Flash.sendMessage('Ingredient successfully updated.', 'success')
+				})
+
+			})
 		}
 		
 	}

@@ -39,8 +39,8 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 		query.count({
 			success: function(count) {
 				deferred.resolve(count);
-			}, error: function(reason) {
-				deferred.reject(reason);
+			}, error: function(entry, error) {
+				deferred.reject(error);
 			}
 		})
 
@@ -61,8 +61,8 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 		foodEntry.save(null, {
 			success: function(entry) {
 				deferred.resolve(entry);
-			}, error: function(reason) {
-				deferred.reject(reason);
+			}, error: function(entry, error) {
+				deferred.reject(error);
 			}
 		})
 
