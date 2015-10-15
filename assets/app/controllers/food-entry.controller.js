@@ -109,12 +109,24 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	}
 
 	$scope.removeIngredient = function(detail) {
+
+		angular.forEach($scope.nutritionFacts, function(fact) {
+				FoodEntryModel.updateEntryNutrition($scope.selectedEntry, fact.type, 0, detail.servings, detail.ingredient)
+			})
+		$scope.buildNutrition($scope.selectedEntry)
+
 		if(detail.detailId === undefined) {
 			delete $scope.foodDetails[detail.ingredient.id]
 		} else {
 			FoodDetailModel.remove(detail.detailId).then( function() {
-				Flash.sendMessage('FoodDetail deleted', 'warning')
-				delete $scope.foodDetails[detail.ingredient.id]
+				// Update the selected food entry with new quantites
+				FoodEntryModel.update($scope.selectedEntry).then( function(entry) {
+					setEntryArray(entry)
+
+					Flash.sendMessage('FoodDetail deleted, FoodEntry updated.', 'warning')
+					delete $scope.foodDetails[detail.ingredient.id]
+				})
+
 			}, function(reason) {
 				Flash.sendMessage(reason.message, 'danger')
 			})
@@ -131,6 +143,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		}
 	}
 
+	// Save ingredient to food detail and food entry.
 	$scope.saveIngredient = function(detail) {
 		if (detail.detailId === undefined) {
 			FoodDetailModel.add($scope.selectedEntry, detail.ingredient, detail.servings).then( function(_detail){
