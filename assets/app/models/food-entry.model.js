@@ -47,13 +47,6 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 		return deferred.promise;
 	}
 
-	this.get = function(id) {
-		var deferred = $q.defer();
-
-		deferred.resolve();
-		return deferred.promise;
-	}
-
 	// Update the foodEntry instance.
 	this.update = function(foodEntry) {
 		var deferred = $q.defer();
@@ -67,13 +60,6 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 		})
 
 		return deferred.promise; 
-	}
-
-	this.delete = function(id) {
-		var deferred = $q.defer();
-
-		deferred.resolve();
-		return deferred.promise;
 	}
 
 	buildAmount = function(amount) {

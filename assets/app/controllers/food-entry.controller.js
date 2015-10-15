@@ -24,11 +24,12 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	_entryIndex = null;
 	_page = 0
 
+	// checks if an object is non-null and defined
 	isDefined = function(object) {
 		return (object !== null) && (object !== undefined)
 	}
 
-	// Get all the food entries.
+	// Get all the food entries by page number and sort order (asc / desc).
 	$scope.getAllEntries = function(page, direction) {
 		deferred = $q.defer()
 		FoodEntryModel.getAll(page, direction).then(function(entries) {
@@ -63,8 +64,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	}
 
 	$scope.detailsLength = function() {
-		length = Object.keys($scope.foodDetails).length
-		return length;
+		return Object.keys($scope.foodDetails).length
 	}
 
 	$scope.getTags = function(entry) {
@@ -108,32 +108,40 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
     });
 	}
 
+	// Update all nutrition facts for the selected entry,
+	// then if the detail doesn't exist, delete it from the hash, otw
+	// remove the detail from the backend, and update the 
+	// Food entry model with.
 	$scope.removeIngredient = function(detail) {
 
 		angular.forEach($scope.nutritionFacts, function(fact) {
-				FoodEntryModel.updateEntryNutrition($scope.selectedEntry, fact.type, 0, detail.servings, detail.ingredient)
-			})
+			FoodEntryModel.updateEntryNutrition($scope.selectedEntry, fact.type, 0, detail.servings, detail.ingredient)
+		})
+
 		$scope.buildNutrition($scope.selectedEntry)
 
 		if(detail.detailId === undefined) {
 			delete $scope.foodDetails[detail.ingredient.id]
-		} else {
-			FoodDetailModel.remove(detail.detailId).then( function() {
-				// Update the selected food entry with new quantites
-				FoodEntryModel.update($scope.selectedEntry).then( function(entry) {
-					setEntryArray(entry)
-
-					Flash.sendMessage('FoodDetail deleted, FoodEntry updated.', 'warning')
-					delete $scope.foodDetails[detail.ingredient.id]
-				})
-
-			}, function(reason) {
-				Flash.sendMessage(reason.message, 'danger')
-			})
+			return
 		}
+
+		FoodDetailModel.remove(detail.detailId).then( function() {
+
+			// Update the selected food entry with new quantities
+			FoodEntryModel.update($scope.selectedEntry).then( function(entry) {
+				setEntryArray(entry)
+
+				Flash.sendMessage('FoodDetail deleted, FoodEntry updated.', 'warning')
+				delete $scope.foodDetails[detail.ingredient.id]
+			})
+
+		}, function(reason) {
+			Flash.sendMessage(reason.message, 'danger')
+		})
+
 	}
 
-	// Need to update the array instances of the entries.
+	// Update the array instances of the entries with entry.
 	setEntryArray = function(entry) {
 		for(var i = 0; i < $scope.entries.length; ++i) {
 			if ($scope.entries[i].id === entry.id) {
@@ -146,7 +154,13 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	// Save ingredient to food detail and food entry.
 	$scope.saveIngredient = function(detail) {
 		if (detail.detailId === undefined) {
-			FoodDetailModel.add($scope.selectedEntry, detail.ingredient, detail.servings).then( function(_detail){
+
+			FoodDetailModel.add(
+				$scope.selectedEntry, 
+				detail.ingredient, 
+				detail.servings
+			).then( function(_detail){
+
 				ingredientId = _detail.get('ingredientId').id
 				$scope.foodDetails[ingredientId].detailId = _detail.id
 
@@ -159,8 +173,10 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 			}, function(reason) {
 				Flash.sendMessage(reason.message, 'danger')
 			})
+
 		} else {
-			FoodDetailModel.update(detail.detailId, detail.servings).then(function(_detail) {
+			FoodDetailModel.update(detail.detailId, detail.servings)
+			.then(function(_detail) {
 				FoodEntryModel.update($scope.selectedEntry).then( function(entry) {
 
 					setEntryArray(entry);
@@ -214,16 +230,19 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		proccessEntry($scope.selectedEntry)
 	}
 
+	// Returns true if the entry is the 
+	// selected entry.
 	$scope.isSelected = function(entry) {
-		if ($scope.selectedEntry === null || 
-			  $scope.selectedEntry === undefined || 
-			  entry === null || entry === undefined) {
+		if (!isDefined($scope.selectedEntry) || 
+			  !isDefined(entry)) {
 			return false;
 		}
 
 		return entry.id === $scope.selectedEntry.id
 	}
 
+	// Get the previous entry in the 
+	// entries array.
 	$scope.prev = function() {
 		if (_entryIndex === 0) {
 			return;
@@ -236,11 +255,17 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		proccessEntry($scope.selectedEntry)
 	}
 
+	// Load more entries.
 	$scope.more = function() {
 		_page += 1
 		$scope.getAllEntries(_page)
 	}
 
+	// Attempts to get the next entry from the
+	// entries array. If there are more entries
+	// on the backend, but we are at the limit of 
+	// available entries, increment the page and get 
+	// more entries.
 	$scope.next = function() {
 		if (_entryIndex === $scope.totalEntryCount) {
 			return
@@ -265,6 +290,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 	}
 
+	// Get all ingredients from the backend.
 	$scope.getAllIngredients = function() {
 		IngredientModel.getAll().then(function(ingredients) {
 			$scope.ingredients = ingredients; 
@@ -273,6 +299,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		});
 	}
 
+	// Gets the total entries saved on the backend.
 	$scope.getEntryCount = function() {
 		FoodEntryModel.getCount().then(function(count) {
 			$scope.totalEntryCount = count;
@@ -281,7 +308,9 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		})
 	}
 
-	// Listen for the servings to be updated
+	// Listen for update-servings command. Then update each 
+	// nutrition fact for the selected Entry and rebuild 
+	// the nutrition object. 
 	$scope.$on('update-servings', function(event, message) {
 		detail = $scope.foodDetails[message.ingredientId]
 		ingredient = detail.ingredient
@@ -296,24 +325,6 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		// apply digest scope as the event happened async from digest cycle.
 		$scope.$digest()
 	})
-
-	// Update a food entry by id.
-	$scope.update = function(entryId) {
-		FoodEntryModel.update(entryId).then(function() {
-
-		}, function() {
-
-		})
-	}
-
-	// Delete a food entry by id.
-	$scope.delete = function(entryId) {
-		FoodEntryModel.delete(entryId).then(function() {
-
-		}, function() {
-
-		})
-	}
 
 	$scope.getAllEntries(0);
 	$scope.getAllIngredients();
