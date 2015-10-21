@@ -20,6 +20,8 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 			query.descending('createdAt');
 		}
 
+		query.equalTo('isVisible', true);
+
 		query.find({
 			success: function(results) {
 				deferred.resolve(results);
@@ -35,6 +37,8 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 	this.getCount = function() {
 		var deferred = $q.defer();
 		var query = new Parse.Query(FoodEntry);
+
+		query.equalTo('isVisible', true)
 
 		query.count({
 			success: function(count) {
