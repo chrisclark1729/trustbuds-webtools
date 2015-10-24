@@ -25,8 +25,31 @@ angular.module('webtools.directives').directive('update', function($compile, $wi
 			}
 		})
 
+		canDivide = function(value) {
+			div = value.toString().split("/")
+			return (div.length == 2) && (div[1].length > 0) 
+		}
+
+		validDivide = function(value) {
+			div = value.split("/")
+			num = Number(div[0])
+			dem = Number(div[1])
+			console.log(num, dem)
+
+			if (validateZPlus(num) && validateZPlus(dem)) {
+				return true;
+			}
+		}
+
 		validateZPlus = function(value) {
 			if (value === undefined || value === null) return false
+
+			if (canDivide(value)) {
+				if (validDivide(value)) {
+					return true;
+				}
+			}
+
 			if (isNaN(value)) return false
 			if (value < 0) return false	
 			return true
@@ -37,9 +60,17 @@ angular.module('webtools.directives').directive('update', function($compile, $wi
 			_state = 'display'
 
 			if(!validateZPlus(scope.value)) {
-				scope.value = _oldValue;
-				return
+					scope.value = _oldValue;
+					return
 			}
+
+			if (canDivide(scope.value)) {
+					div = scope.value.split("/")
+					num = Number(div[0]);
+					dem = Number(div[1]);
+
+					scope.value = num / dem; 
+				}
 
 			// message up to parent scope that the servings have been updated
 			scope.$emit('update-servings', {ingredientId: scope.key, servings: [Number(scope.value), Number(_oldValue)]})
