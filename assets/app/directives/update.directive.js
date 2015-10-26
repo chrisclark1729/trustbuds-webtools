@@ -10,12 +10,13 @@ angular.module('webtools.directives').directive('update', function($compile, $wi
 	}
 
 	link = function(scope, element, attribute) {
-		_state = 'display'
-		_oldValue = null
+		var _state = 'display'
+		var _oldValue = null
 		borderElement = angular.element(element[0].querySelector('div'))
 
 		element.on('mouseup', function(event) {
 			event.preventDefault()
+
 			if(_state == 'display') {
 				_oldValue = scope.value
 
@@ -34,11 +35,11 @@ angular.module('webtools.directives').directive('update', function($compile, $wi
 			div = value.split("/")
 			num = Number(div[0])
 			dem = Number(div[1])
-			console.log(num, dem)
 
 			if (validateZPlus(num) && validateZPlus(dem)) {
 				return true;
 			}
+			
 		}
 
 		validateZPlus = function(value) {
@@ -59,6 +60,12 @@ angular.module('webtools.directives').directive('update', function($compile, $wi
 			setContent(element, scope, templateDisplay)
 			_state = 'display'
 
+			if(scope.value == "") {
+				scope.value = 0;
+				_oldValue = 0;
+				return
+			}
+
 			if(!validateZPlus(scope.value)) {
 					scope.value = _oldValue;
 					return
@@ -73,7 +80,7 @@ angular.module('webtools.directives').directive('update', function($compile, $wi
 				}
 
 			// message up to parent scope that the servings have been updated
-			scope.$emit('update-servings', {ingredientId: scope.key, servings: [Number(scope.value), Number(_oldValue)]})
+			$rootScope.$broadcast('update-servings', {ingredientId: scope.key, servings: [Number(scope.value), Number(_oldValue)]})
 		}
 
 		element.on('keypress', function(event) {

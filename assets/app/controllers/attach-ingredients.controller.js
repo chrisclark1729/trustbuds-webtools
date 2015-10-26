@@ -14,6 +14,18 @@ angular.module('webtools.controllers').controller('AttachIngredientsCtrl', funct
 
 	$scope.selectedIngredients = []
 
+
+	// Listen for update-servings command. Then update each 
+	// nutrition fact for the selected Entry and rebuild 
+	// the nutrition object. 
+	$scope.$on('update-servings', function(event, message) {
+		detail = $scope.foodDetails[message.ingredientId]
+		ingredient = detail.ingredient
+		servings = message.servings
+
+		console.log(ingredient)
+	})
+
 	find = function(ingredient) {
 		var _index = null
 		angular.forEach($scope.selectedIngredients, function(_ingredient, index) {

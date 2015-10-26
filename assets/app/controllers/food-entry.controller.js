@@ -195,6 +195,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	proccessEntry = function(entry) {
 		$scope.foodTags = []
 		$scope.foodDetails = {}
+		console.log($scope.foodDetails)
 
 		$scope.buildNutrition(entry)
 		$scope.getDetails(entry)
@@ -323,7 +324,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		$scope.buildNutrition($scope.selectedEntry)
 
 		// apply digest scope as the event happened async from digest cycle.
-		$scope.$digest()
+		if(!$scope.$$phase) $scope.$digest()
 	})
 
 	$scope.getAllEntries(0);
