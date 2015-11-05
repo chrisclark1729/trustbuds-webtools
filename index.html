@@ -23,7 +23,17 @@
 				<!-- Picture table -->
 				<div class='col-md-2'>
 					<div class='panel panel-default'>
-						<div class='panel-heading' style='cursor: pointer' ng-mouseleave='showInfo = false' ng-mouseenter='showInfo = true'>Food Diary Entries - Total: {{totalEntryCount}}</div>
+						<div class='panel-heading' 
+									style='cursor: pointer' 
+									ng-mouseleave='showInfo = false' 
+									ng-mouseenter='showInfo = true'
+									>
+							Food Diary Entries - Total: {{totalEntryCount}}
+							<span style='float:right' ng-click='show(true)' ng-if='!showVisible' class='glyphicon glyphicon-eye-close'>
+							</span>
+							<span style='float:right' ng-click='show(false)' ng-if='showVisible' class='glyphicon glyphicon-eye-open'>
+							</span>
+						</div>
 						<div class='panel-body' ng-if='showInfo'>
 							Press more button to load more entries.
 							Select a picture to edit diary entry.
@@ -120,6 +130,22 @@
 												<strong>{{selectedEntry.get('locationName')}}</strong>
 												{{selectedEntry.get('address')}}
 											</address>
+										</div>
+									</div>
+
+									<!-- Processed -->
+									<div class='row'>
+										<div class='col-md-2'>
+											<h3>Visible</h3>
+										</div>
+										<div class='col-md-10'>
+
+											<div class='form-group' style='margin-top:22px;'>
+												<div class="checkbox">
+												<label><input type="checkbox" ng-model='checkbox.isVisible' ng-change='checkbox.dirty = true;'>Is visible</label>
+												</div>
+										  </div>
+
 										</div>
 									</div>
 

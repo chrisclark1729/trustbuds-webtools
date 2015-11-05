@@ -12,6 +12,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 	$scope.totalEntryCount = 0;
 	$scope.selectedEntry = null
+	$scope.checkbox = {isVisible: null};
 	$scope.showInfo = false;
 	$scope.nutritionFacts = []
 
@@ -20,6 +21,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 	$scope.foodDetails = {}
 	$scope.foodTags = []
+	$scope.showVisible = true;
 
 	_entryIndex = null;
 	_page = 0
@@ -29,11 +31,24 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		return (object !== null) && (object !== undefined)
 	}
 
+	$scope.show = function(visible) {
+		$scope.showVisible = visible;
+		$scope.getAllEntries(_page, null, visible, true);
+		$scope.getEntryCount(visible);
+	}
+
 	// Get all the food entries by page number and sort order (asc / desc).
-	$scope.getAllEntries = function(page, direction) {
+	$scope.getAllEntries = function(page, direction, visible, refresh) {
+		refresh = refresh || false;
+
 		deferred = $q.defer()
-		FoodEntryModel.getAll(page, direction).then(function(entries) {
-			$scope.entries = $scope.entries.concat(entries)
+		FoodEntryModel.getAll(page, direction, visible).then(function(entries) {
+			if(refresh) {
+				$scope.entries = [];
+				$scope.entries = entries;
+			} else {
+				$scope.entries = $scope.entries.concat(entries)
+			}
 			deferred.resolve()
 		}, function(reason) {
 			Flash.sendMessage(reason.message, 'danger')
@@ -100,10 +115,12 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 
 		modalInstance.result.then(function (ingredients) {
 			angular.forEach(ingredients, function(ingredient){
-				$scope.foodDetails[ingredient.id] = {
-					'ingredient': ingredient,
-					'servings' : 0
+				$scope.foodDetails[ingredient.ingredient.id] = {
+					'ingredient': ingredient.ingredient,
+					'servings' : ingredient.value
 				}
+
+				updateNutrition(ingredient.value, 0, ingredient.ingredient)
 			})
     });
 	}
@@ -195,7 +212,8 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	proccessEntry = function(entry) {
 		$scope.foodTags = []
 		$scope.foodDetails = {}
-		console.log($scope.foodDetails)
+		$scope.checkbox.isVisible = entry.get('isVisible')
+		$scope.checkbox.dirty = false;
 
 		$scope.buildNutrition(entry)
 		$scope.getDetails(entry)
@@ -301,13 +319,29 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 	}
 
 	// Gets the total entries saved on the backend.
-	$scope.getEntryCount = function() {
-		FoodEntryModel.getCount().then(function(count) {
+	$scope.getEntryCount = function(visible) {
+		FoodEntryModel.getCount(visible).then(function(count) {
 			$scope.totalEntryCount = count;
 		}, function(reason) {
 			Flash.sendMessage(reason.message, 'danger')
 		})
 	}
+
+	updateNutrition = function(newServings, oldServings, ingredient) {
+		angular.forEach($scope.nutritionFacts, function(fact) {
+			FoodEntryModel.updateEntryNutrition($scope.selectedEntry, fact.type, newServings, oldServings, ingredient)
+		})
+
+		$scope.buildNutrition($scope.selectedEntry)
+	}
+
+	$scope.$watchCollection('checkbox', function(newValue, oldValue) {
+		if(newValue.isVisible != oldValue.isVisible && newValue.dirty) {
+			$scope.selectedEntry.set({isVisible: newValue.isVisible})
+			$scope.checkbox.dirty = false;
+			FoodEntryModel.updateIsVisible($scope.selectedEntry, newValue.isVisible);
+		}
+	})
 
 	// Listen for update-servings command. Then update each 
 	// nutrition fact for the selected Entry and rebuild 
@@ -317,12 +351,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		ingredient = detail.ingredient
 		servings = message.servings
 
-		angular.forEach($scope.nutritionFacts, function(fact) {
-			FoodEntryModel.updateEntryNutrition($scope.selectedEntry, fact.type, servings[0], servings[1], ingredient)
-		})
-
-		$scope.buildNutrition($scope.selectedEntry)
-
+		updateNutrition(servings[0], servings[1], ingredient)
 		// apply digest scope as the event happened async from digest cycle.
 		if(!$scope.$$phase) $scope.$digest()
 	})

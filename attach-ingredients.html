@@ -24,13 +24,25 @@
     <div class='row'>
       <div class='col-md-12'>
         <ul class="list-group list-group-display">
-          <li ng-repeat='ingredient in ingredients | orderBy:predicate:reverse | filter:searchFilter.attributes.ingredientName' 
+          <li ng-repeat='ingredient in ingredients | orderBy:predicate:reverse | filter:searchFilter.attributes.ingredientName'
               class='list-group-item'
               ng-click='toggleSelect(ingredient)'
               ng-class='{ selected : isSelected(ingredient) }'
               style='cursor:pointer'
             >
-            {{ingredient.get('ingredientName')}} - <em>{{ingredient.get('unitOfMeasurement')}}</em>
+            <div class='row'>
+              <div class='col-md-7'>
+                {{ingredient.get('ingredientName')}} - 
+              </div>
+              <div class='col-md-3'>
+                <update ng-if='isSelected(ingredient)' value='selectedIngredients[index(ingredient)].value' key='{{index(ingredient)}}'>
+                </update>
+              </div>
+              <div class='col-md-2'>
+                <em>{{ingredient.get('unitOfMeasurement')}}</em>
+              </div>
+            </div>
+
           </li>
         </ul>
       </div>

@@ -1,7 +1,7 @@
 angular.module('webtools.directives').directive('update', function($compile, $window, $rootScope) {
 
 	var templateDisplay = '<div>{{value}}</div>'
-	var	templateEdit = '<div class="input-group" style="width:100px"><input type="text" class="form-control" ng-model="value" aria-describedby="basic-addon2"><span class="input-group-addon" id="basic-addon2" ng-click="close()"><span class="glyphicon glyphicon-ok"></span></span></div>'
+	var	templateEdit = '<div class="input-group" style="width:100px;"><input type="text" class="form-control" ng-model="value" aria-describedby="basic-addon2"><span class="input-group-addon" id="basic-addon2" ng-click="close(); $event.stopPropagation();"><span class="glyphicon glyphicon-ok"></span></span></div>'
 
 	setContent = function(element, scope, content) {
 		element.empty()
@@ -80,7 +80,7 @@ angular.module('webtools.directives').directive('update', function($compile, $wi
 				}
 
 			// message up to parent scope that the servings have been updated
-			$rootScope.$broadcast('update-servings', {ingredientId: scope.key, servings: [Number(scope.value), Number(_oldValue)]})
+			scope.$emit('update-servings', {ingredientId: scope.key, servings: [Number(scope.value), Number(_oldValue)]})
 		}
 
 		element.on('keypress', function(event) {

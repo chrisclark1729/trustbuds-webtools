@@ -19,17 +19,14 @@ angular.module('webtools.controllers').controller('AttachIngredientsCtrl', funct
 	// nutrition fact for the selected Entry and rebuild 
 	// the nutrition object. 
 	$scope.$on('update-servings', function(event, message) {
-		detail = $scope.foodDetails[message.ingredientId]
-		ingredient = detail.ingredient
-		servings = message.servings
-
-		console.log(ingredient)
+		index = Number(message.ingredientId)
+		$scope.selectedIngredients[index].value = message.servings[0]
 	})
 
 	find = function(ingredient) {
 		var _index = null
 		angular.forEach($scope.selectedIngredients, function(_ingredient, index) {
-			if(_ingredient.id === ingredient.id) {
+			if(_ingredient.ingredient.id === ingredient.id) {
 				_index = index
 			}
 		})
@@ -42,12 +39,12 @@ angular.module('webtools.controllers').controller('AttachIngredientsCtrl', funct
 			return
 		}
 
-		$scope.selectedIngredients.push(ingredient)
+		$scope.selectedIngredients.push({ingredient: ingredient, value: 0})
 	}
 
 	remove = function(ingredient) {
 		index = find(ingredient)
-		if (index === null) return
+		if (index === null) return;
 
 		$scope.selectedIngredients.splice(index, 1)
 	}
@@ -62,6 +59,10 @@ angular.module('webtools.controllers').controller('AttachIngredientsCtrl', funct
 		} else {
 			add(ingredient)
 		}
+	}
+
+	$scope.index = function(ingredient) {
+		return find(ingredient)
 	}
 
 	$scope.ok = function() {

@@ -3,9 +3,12 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 	var FoodEntry = Parse.Object.extend('FoodDiaryEntries');
 	var _pageSize = 30;
 
-	this.getAll = function(page, direction) {
+	this.getAll = function(page, direction, visible) {
 		page = page || 0;
 		direction = direction || 'desc'
+		if(visible === undefined) {
+			visible = true;
+		}
 
 		var deferred = $q.defer();
 		var query = new Parse.Query(FoodEntry);
@@ -20,7 +23,7 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 			query.descending('createdAt');
 		}
 
-		query.equalTo('isVisible', true);
+		query.equalTo('isVisible', visible);
 
 		query.find({
 			success: function(results) {
@@ -34,11 +37,15 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 		return deferred.promise;
 	}
 
-	this.getCount = function() {
+	this.getCount = function(visible) {
+		if(visible === undefined) {
+			visible = true;
+		}
+		
 		var deferred = $q.defer();
 		var query = new Parse.Query(FoodEntry);
 
-		query.equalTo('isVisible', true)
+		query.equalTo('isVisible', visible)
 
 		query.count({
 			success: function(count) {
@@ -64,6 +71,22 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 		})
 
 		return deferred.promise; 
+	}
+
+	this.updateIsVisible = function(foodEntry, visible){
+		var deferred = $q.defer();
+
+		foodEntry.save({
+			isVisible: visible
+		}, {
+			success: function() {
+				deferred.resolve()
+			}, error: function(entry, error) {
+				deferred.reject(error);
+			}
+		})
+
+		return deferred.promise;
 	}
 
 	buildAmount = function(amount) {
