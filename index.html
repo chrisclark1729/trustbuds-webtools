@@ -7,9 +7,25 @@
 </head>
 
 <body ng-app='webtools'>
-	<div class='container-fluid' ng-cloak>
+	<div class='container-fluid' ng-cloak ng-controller='MainCtrl'>
 	
 		<div class='navigation'>
+
+			<div class='row'>
+				<div class='col-md-3'>
+					<h2>Trust Buds - <i>Web Tools</i></h2>
+				</div>
+			</div>
+
+			<div class='row'>
+				<div class='col-md-12' style='margin-top: 4px; margin-bottom: 10px;'>
+					<ul class="nav nav-tabs">
+					  <li ng-click='setPanel("main")' role="presentation" ng-class='{ "active" : panel === "main" }'><a href="#">Home</a></li>
+					  <li ng-click='setPanel("ingredient")' role="presentation" ng-class='{ "active" : panel === "ingredient" }'><a href='#'>Ingredients</a></li>
+					</ul>
+				</div>
+			</div>
+
 			<div class='row'>
 				<div class='col-md-12'>
 					<flash-panel></flash-panel>
@@ -17,7 +33,7 @@
 			</div>
 		</div>
 
-		<div class='main' ng-controller='FoodEntryCtrl'>
+		<div class='main' ng-controller='FoodEntryCtrl' ng-if='panel === "main"'>
 			<div class='row'>
 
 				<!-- Picture table -->
@@ -220,6 +236,179 @@
 			</div>
 		</div>
 
+		<div class='main' ng-controller='IngredientCtrl' ng-if='panel === "ingredient"'>
+			<div class='row'>
+				<div class='col-md-3'>
+					<div class='panel panel-default'>
+						<div class='panel-heading'>
+							<div class='row'>
+								<div class='col-md-2'>
+								Ingredients
+								</div>
+								<div class='col-md-3 col-md-offset-7' style='cursor:pointer;' ng-click='newIngredient();'>
+									<span style='float:right'>Add <span class='glyphicon glyphicon-plus'></span></span>	
+								</div>
+							</div>
+						</div>
+						<div class='panel-body'>
+					    <div class='row'>
+					      <div class='col-md-9'>
+
+					        <div class="input-group">
+					          <span class="input-group-addon" id="sizing-addon2">
+					            <span class='glyphicon glyphicon-search' ng-model='searchFilter' aria-hidden="true"></span>
+					          </span>
+					          <input type="text" ng-model='searchFilter.attributes.ingredientName' class="form-control" placeholder="search" aria-describedby="sizing-addon2">
+					        </div>
+					      </div>
+					      <div class='col-md-3'>
+					        <div class='sort' ng-click='toggleDirection()' style='cursor: pointer;'><span class='glyphicon' ng-class='directionClass' aria-hidden='true'></span></div>
+					      </div>
+
+					    </div>
+						</div>
+						<ul class='list-group'>
+							<li class='list-group-item' 
+							ng-repeat='ingredient in ingredients | orderBy:predicate:reverse | filter:searchFilter.attributes.ingredientName' 
+							ng-click='selectIngredient(ingredient)'
+							ng-class='{active : ingredientModel.id === ingredient.id}'>
+								{{ingredient.get('ingredientName')}}
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class='col-md-9' ng-if='editPanel'>
+					<div class='panel panel-default'>
+						<div class='panel-heading'>
+							New Ingredient
+						</div>
+						<div class='panel-body'>
+							<!-- Name -->
+							<div class='row'>
+								<div class='col-md-2'>
+									<p style='font-size: 20px; margin-top: 5px;'>
+									Name
+									</p>
+								</div>
+								<div class='col-md-4'>
+									<input  type="text" class="form-control" id="" placeholder="Apples"
+													ng-model='ingredientModel.ingredientName' 
+									>
+								</div>
+							</div>
+
+							<!-- Generic Name -->
+							<div class='row'>
+								<div class='col-md-2'>
+									<p style='font-size: 20px; margin-top: 5px;'>
+									Generic Name
+									</p>
+								</div>
+								<div class='col-md-4'>
+									<input  type="text" class="form-control" id="" placeholder="Apples"
+													ng-model='ingredientModel.genericIngredientName' 
+									>
+								</div>
+							</div>
+
+							<!-- Brand -->
+							<div class='row'>
+								<div class='col-md-2'>
+									<p style='font-size: 20px; margin-top: 5px;'>
+									Brand	
+									</p>
+								</div>
+								<div class='col-md-4'>
+									<input  type="text" class="form-control" id="" placeholder="Whole Foods"
+													ng-model='ingredientModel.brand' 
+									>
+								</div>
+							</div>
+
+							<!-- Category -->
+							<div class='row'>
+								<div class='col-md-2'>
+									<p style='font-size: 20px; margin-top: 5px;'>
+									Category
+									</p>
+								</div>
+								<div class='col-md-4'>
+									<input  type="text" class="form-control" id="" placeholder="Fruits"
+													ng-model='ingredientModel.ingredientCategory' 
+									>
+								</div>
+							</div>
+
+							<!-- Units -->
+							<div class='row'>
+								<div class='col-md-2'>
+									<p style='font-size: 20px; margin-top: 5px;'>
+									Unit of Measurement
+									</p>
+								</div>
+								<div class='col-md-3'>
+							    <!-- Single button -->
+							    <div class="btn-group" uib-dropdown is-open="status.isopen">
+							      <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+							        {{getUnit()}} <span class="caret"></span>
+							      </button>
+							      <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
+							        <li role="menuitem" ng-repeat='unit in units' ng-click='setUnit(unit)'
+							        	ng-class='{active: getUnit() === unit}'
+							        ><a href="#">{{unit}}</a></li>
+							      </ul>
+
+							    </div>
+								</div>
+							</div>
+
+							<!-- Nutrition -->
+							<div class='row'>
+								<div class='col-md-2'>
+									<p style='font-size: 20px; margin-top: 5px;'>
+									Nutrition Facts
+									</p>
+								</div>
+								<div class='col-md-4'>
+									<div class='panel panel-default'>
+										<div class='panel-body nutrition'>
+
+											<div ng-repeat='fact in nutritionFacts'>
+
+												<div class='row'>
+													<div ng-class='[{ "col-md-11 col-md-offset-1" : fact.size == "medium"}, {"col-md-12" : fact.size == "large"}]'>
+														<form class="form-inline" >
+														  <div class="form-group" style='padding-bottom: 8px; padding-top: 10px;'>
+														    <label for="{{fact.model}}" style='margin-right: 10px;'>{{fact.name}}</label>
+														    <input type="text" class="form-control" id="{{fact.model}}"
+														    				ng-model='ingredientModel[fact.model]'
+														    				style='width:70px;'
+														    >
+														    <label for "{{fact.model}}" style='margin-left: 10px;'>grams</label>
+														  </div>
+														</form>
+												</div>
+
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						</div>
+
+						<div class='panel-footer'>
+							<button type="button" class="btn btn-success" ng-click='save();' ng-class='{ disabled: newFlag === false }'>
+								Save Ingredient 
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class='footer'>
 
 		</div>
@@ -227,7 +416,7 @@
 	</div>
 
 	<script type='text/javascript' src='/bower_components/angular/angular.js'></script>
-	<script type='text/javascript' src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.0.js"></script>
+	<script type='text/javascript' src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 	<script type='text/javascript' src='/bower_components/angular-local-storage/dist/angular-local-storage.min.js'></script>
 	<script type='text/javascript' src='http://www.parsecdn.com/js/parse-1.0.19.min.js'></script>
 	<script type='text/javascript' src='/bower_components/measurement.js/measurement.js'></script>
@@ -255,6 +444,8 @@
 	<script type='text/javascript' src='/assets/app/models/ingredient.model.js'></script>
 
 	<script type='text/javascript' src='/assets/app/controllers/controllers.js'></script>
+	<script type='text/javascript' src='/assets/app/controllers/main.controller.js'></script>
+	<script type='text/javascript' src='/assets/app/controllers/ingredient.controller.js'></script>
 	<script type='text/javascript' src='/assets/app/controllers/food-entry.controller.js'></script>
 	<script type='text/javascript' src='/assets/app/controllers/attach-ingredients.controller.js'></script>
 

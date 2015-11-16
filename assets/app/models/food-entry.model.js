@@ -99,8 +99,10 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 			.to(measurement.Unit.Mass.MILLIGRAM)
 	} 
 
-	buildUnit = function(amount) {
-		if(amount === undefined) return ''
+	buildUnit = function(amount, type) {
+		if(amount === undefined) return '';
+		if(type === 'calories') return '';
+
 		if (amount === 0 || amount >= 1) {
 			return 'g'
 		} else {
@@ -111,7 +113,7 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 	buildHash = function(amount, name, size, type) {
 		return {
 			'amount' : buildAmount(amount),
-			'unit' : buildUnit(amount),
+			'unit' : buildUnit(amount, type),
 			'name' : name,
 			'size' : size,
 			'type' : type

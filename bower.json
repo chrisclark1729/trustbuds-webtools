@@ -18,7 +18,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular-bootstrap": "~0.13.4",
+    "angular-bootstrap": "~0.14.0",
     "bootstrap": "~3.3.5",
     "angular-local-storage": "~0.2.2",
     "measurement.js": "~0.1.4"
