@@ -385,7 +385,7 @@
 														    				ng-model='ingredientModel[fact.model]'
 														    				style='width:70px;'
 														    >
-														    <label for "{{fact.model}}" style='margin-left: 10px;'>grams</label>
+														    <label for "{{fact.model}}" style='margin-left: 10px;' ng-if='!$first'>grams</label>
 														  </div>
 														</form>
 												</div>
