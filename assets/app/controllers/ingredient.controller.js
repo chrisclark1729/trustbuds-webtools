@@ -25,6 +25,8 @@ angular.module('webtools.controllers').controller('IngredientCtrl', function($sc
 		'fluid ounce'
 	]
 
+	$scope.state = 'new';
+
 	$scope.nutritionFacts = null;
 	$scope.newFlag  = true;
 	$scope.ingredientModel = null;
@@ -72,14 +74,14 @@ angular.module('webtools.controllers').controller('IngredientCtrl', function($sc
 		$scope.ingredientModel.gramsSugar = ingredient.attributes.gramsSugar;
 		$scope.ingredientModel.gramsProtein = ingredient.attributes.gramsProtein;
 
-
+		$scope.state = 'View';
 		$scope.editPanel = true;
 	}
 
 	$scope.newIngredient = function() {
 		$scope.editPanel = true;
 		$scope.newFlag = true;
-
+		$scope.state = 'New'
 		// new instance.
 		$scope.ingredientModel = IngredientModel.newModel(); 
 	}
@@ -158,8 +160,10 @@ angular.module('webtools.controllers').controller('IngredientCtrl', function($sc
 	$scope.save = function() {
 		if($scope.newFlag === false) return;
 		if($scope.ingredientModel.ingredientName === null ||
-			 $scope.ingredientModel.ingredientName === '') {
+			 $scope.ingredientModel.ingredientName === '' ||
+			 $scope.ingredientModel.ingredientName === undefined) {
 			Flash.sendMessage('Ingredient name blank!', 'danger')
+			return;
 		}
 
 		IngredientModel.create($scope.ingredientModel).then(function(ingredient) {
