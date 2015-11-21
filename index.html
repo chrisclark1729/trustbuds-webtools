@@ -37,7 +37,7 @@
 			<div class='row'>
 
 				<!-- Picture table -->
-				<div class='col-md-2'>
+				<div class='col-lg-2'>
 					<div class='panel panel-default'>
 						<div class='panel-heading' 
 									style='cursor: pointer' 
@@ -80,7 +80,7 @@
 				</div>
 
 				<!-- Food Entry Panel -->
-				<div class='col-md-10'>
+				<div class='col-lg-10'>
 					<div class='panel panel-default' ng-if='selectedEntry != null'>
 
 						<div class='panel-heading title'>
@@ -100,10 +100,9 @@
 
 						<div class='panel-body'>
 							<div class='row'>
-								<div class='col-md-6'>
+								<div class='col-lg-6 col-md-12'>
 
 									<div class='thumbnail' 
-											 style='width:710px;' 
 											 uib-popover="Double Click to expand / colapse picture. Click and drag to position vertically." popover-trigger="mouseenter"
 											 popover-placement='right'
 											 >
@@ -120,7 +119,7 @@
 
 								</div>
 
-								<div class='col-md-6'>
+								<div class='col-lg-6 col-md-12'>
 
 									<!-- Tags -->
 									<div class='row'>
@@ -182,6 +181,15 @@
 															 uib-popover="Click quantity to update" popover-trigger="mouseenter"
 											 				 popover-placement='top'
 											 	>
+											 		<thead>
+											 			<tr>
+											 				<th colspan='5'>
+											 					<button class='btn btn-success btn-sm' ng-click='saveAll()' style='float:right;'>
+											 						Save All
+											 					</button>
+											 				</th>
+											 			</tr>
+											 		</thead>
 													<tbody>
 														<tr ng-repeat='(key, detail) in foodDetails'>
 															<td>{{detail['ingredient'].get('ingredientName')}}</td>
@@ -286,7 +294,7 @@
 						<div class='panel-body'>
 							<!-- Name -->
 							<div class='row'>
-								<div class='col-md-2'>
+								<div class='col-md-3'>
 									<p style='font-size: 20px; margin-top: 5px;'>
 									Name
 									</p>
@@ -300,7 +308,7 @@
 
 							<!-- Generic Name -->
 							<div class='row'>
-								<div class='col-md-2'>
+								<div class='col-md-3'>
 									<p style='font-size: 20px; margin-top: 5px;'>
 									Generic Name
 									</p>
@@ -314,7 +322,7 @@
 
 							<!-- Brand -->
 							<div class='row'>
-								<div class='col-md-2'>
+								<div class='col-md-3'>
 									<p style='font-size: 20px; margin-top: 5px;'>
 									Brand	
 									</p>
@@ -328,7 +336,7 @@
 
 							<!-- Category -->
 							<div class='row'>
-								<div class='col-md-2'>
+								<div class='col-md-3'>
 									<p style='font-size: 20px; margin-top: 5px;'>
 									Category
 									</p>
@@ -342,7 +350,7 @@
 
 							<!-- Units -->
 							<div class='row'>
-								<div class='col-md-2'>
+								<div class='col-md-3'>
 									<p style='font-size: 20px; margin-top: 5px;'>
 									Unit of Measurement
 									</p>
@@ -363,9 +371,22 @@
 								</div>
 							</div>
 
+							<div class='row'>
+								<div class='col-md-3'>
+									<p style='font-size: 20px; margin-top: 5px;'>
+										Serving Size
+									</p>
+								</div>
+								<div class='col-md-4'>
+									<input  type="text" class="form-control" id="" placeholder="Fruits"
+													ng-model='ingredientModel.servingSize' 
+									>
+								</div>
+							</div>
+
 							<!-- Nutrition -->
 							<div class='row'>
-								<div class='col-md-2'>
+								<div class='col-md-3'>
 									<p style='font-size: 20px; margin-top: 5px;'>
 									Nutrition Facts
 									</p>

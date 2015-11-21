@@ -18,6 +18,7 @@ angular.module('webtools.models').service('IngredientModel', function($q) {
 			this.gramsFiber = 0;
 			this.gramsSugar = 0;
 			this.gramsProtein = 0;
+			this.servingSize = 1;
 		}
 	});
 
@@ -47,8 +48,11 @@ angular.module('webtools.models').service('IngredientModel', function($q) {
 		return new Ingredient();
 	}
 
+	// Assumes serving size is non-zero.
 	this.create = function(model) {
 		var deferred = $q.defer();
+		var servingSize = Number(model.servingSize);
+		console.log(servingSize);
 
 		model.save({
 			brand: model.brand,
@@ -56,16 +60,16 @@ angular.module('webtools.models').service('IngredientModel', function($q) {
 			ingredientCategory: model.ingredientCategory,
 			ingredientName: model.ingredientName,
 			unitOfMeasurement: model.unitOfMeasurement,
-			calories: Number(model.calories),
-			gramsFat: Number(model.gramsFat),
-			gramsSaturatedFat: Number(model.gramsSaturatedFat),
-			gramsTransFat: Number(model.gramsTransFat),
-			gramsCholesterol: Number(model.gramsCholesterol),
-			gramsSodium: Number(model.gramsSodium),
-			gramsCarbs: Number(model.gramsCarbs),
-			gramsFiber: Number(model.gramsFiber),
-			gramsSugar: Number(model.gramsSugar),
-			gramsProtein: Number(model.gramsProtein)
+			calories: Number(model.calories) / servingSize,
+			gramsFat: Number(model.gramsFat) / servingSize,
+			gramsSaturatedFat: Number(model.gramsSaturatedFat) / servingSize,
+			gramsTransFat: Number(model.gramsTransFat) / servingSize,
+			gramsCholesterol: Number(model.gramsCholesterol) / servingSize,
+			gramsSodium: Number(model.gramsSodium) / servingSize,
+			gramsCarbs: Number(model.gramsCarbs) / servingSize,
+			gramsFiber: Number(model.gramsFiber) / servingSize,
+			gramsSugar: Number(model.gramsSugar) / servingSize,
+			gramsProtein: Number(model.gramsProtein) / servingSize
 		}, {
 			success: function(data) {
 				deferred.resolve(data);

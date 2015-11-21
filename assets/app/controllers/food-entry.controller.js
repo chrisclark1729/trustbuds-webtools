@@ -168,6 +168,12 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		}
 	}
 
+	$scope.saveAll = function() {
+		angular.forEach($scope.foodDetails, function(detail) {
+			$scope.saveIngredient(detail)
+		})	
+	}
+
 	// Save ingredient to food detail and food entry.
 	$scope.saveIngredient = function(detail) {
 		if (detail.detailId === undefined) {

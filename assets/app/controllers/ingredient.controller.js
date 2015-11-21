@@ -56,7 +56,6 @@ angular.module('webtools.controllers').controller('IngredientCtrl', function($sc
 
 	$scope.selectIngredient = function(ingredient) {
 		$scope.newFlag = false;
-		// console.log(ingredientModel);	
 		$scope.ingredientModel = ingredient;
 		$scope.ingredientModel.brand = ingredient.attributes.brand;
 		$scope.ingredientModel.genericIngredientName = ingredient.attributes.genericIngredientName;
@@ -166,9 +165,15 @@ angular.module('webtools.controllers').controller('IngredientCtrl', function($sc
 			return;
 		}
 
+		if(Number($scope.ingredientModel.servingSize) === 0) {
+			Flash.sendMessage('Divide by 0', 'danger');
+			return;
+		}
+
 		IngredientModel.create($scope.ingredientModel).then(function(ingredient) {
 			Flash.sendMessage('Ingredient Saved!', 'success');
 			$scope.ingredients.push(ingredient);
+			$scope.newFlag = false;
 		}, function(reason) {
 			Flash.sendMessage(reason.message, 'danger')
 		})	
