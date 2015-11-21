@@ -24,6 +24,11 @@ body {
     display: block;
 }
 
+.list-fixed {
+	height: 830px;
+	overflow: scroll;
+}
+
 table tbody {
 	height: 830px;
 	overflow: scroll;
