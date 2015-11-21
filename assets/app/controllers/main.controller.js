@@ -1,5 +1,5 @@
 angular.module('webtools.controllers').controller('MainCtrl', function($scope) {
-	$scope.panel = 'ingredient';
+	$scope.panel = 'main';
 
 	$scope.setPanel = function(panel) {
 		switch(panel) {
