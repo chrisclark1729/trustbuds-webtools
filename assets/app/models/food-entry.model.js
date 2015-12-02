@@ -89,7 +89,7 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 		return deferred.promise;
 	}
 
-	buildAmount = function(amount) {
+	function buildAmount(amount) {
 		if(amount === undefined) return 0
 		if(amount === 0 || amount >= 1) return amount	
 
@@ -99,7 +99,7 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 			.to(measurement.Unit.Mass.MILLIGRAM)
 	} 
 
-	buildUnit = function(amount, type) {
+	function buildUnit(amount, type) {
 		if(amount === undefined) return '';
 		if(type === 'calories') return '';
 
@@ -110,7 +110,7 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 		}
 	}
 
-	buildHash = function(amount, name, size, type) {
+	function buildHash(amount, name, size, type) {
 		return {
 			'amount' : buildAmount(amount),
 			'unit' : buildUnit(amount, type),
@@ -138,6 +138,7 @@ angular.module('webtools.models').service('FoodEntryModel', function($q) {
 
 	this.updateEntryNutrition = function(entry, type, newServings, oldServings, ingredient) {
 		if(newServings === undefined) return
+		if(type === undefined) return;
 
 		baseValue = ingredient.get(type)
 		if(baseValue === undefined || baseValue === null) return	

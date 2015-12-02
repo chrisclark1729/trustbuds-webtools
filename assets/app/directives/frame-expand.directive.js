@@ -3,7 +3,6 @@ angular.module('webtools.directives').directive('frameExpand', function() {
 
 		element.bind('dblclick', function(event) {
 			height = element[0].offsetHeight;
-			console.log(height)
 			
 			if (height === 524) {
 				element.removeClass('frame')

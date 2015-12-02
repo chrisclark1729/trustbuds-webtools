@@ -100,7 +100,7 @@ angular.module('webtools.controllers').controller('IngredientCtrl', function($sc
 	}
 
 
-	buildAmount = function(amount) {
+	function buildAmount(amount) {
 		if(amount === undefined) return 0
 		if(amount === 0 || amount >= 1) return amount	
 
@@ -110,7 +110,7 @@ angular.module('webtools.controllers').controller('IngredientCtrl', function($sc
 			.to(measurement.Unit.Mass.MILLIGRAM)
 	} 
 
-	buildUnit = function(amount, type) {
+	function buildUnit(amount, type) {
 		if(amount === undefined) return '';
 		if(type === 'calories') return '';
 
@@ -121,7 +121,7 @@ angular.module('webtools.controllers').controller('IngredientCtrl', function($sc
 		}
 	}
 
-	buildHash = function(amount, name, size, type) {
+	function buildHash(amount, name, size, type) {
 		return {
 			'model' : type,
 			'amount' : buildAmount(amount),
@@ -132,7 +132,7 @@ angular.module('webtools.controllers').controller('IngredientCtrl', function($sc
 	}
 
 	// Builds an array of nutrition maps
-	buildNutrition = function() {
+	function buildNutrition() {
 		return [ 
 			buildHash(0, 'Calories', 'large', 'calories'),
 			buildHash(0, 'Total Fat', 'large', 'gramsFat'),

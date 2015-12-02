@@ -358,6 +358,7 @@ angular.module('webtools.controllers').controller('FoodEntryCtrl', function(
 		servings = message.servings
 
 		updateNutrition(servings[0], servings[1], ingredient)
+
 		// apply digest scope as the event happened async from digest cycle.
 		if(!$scope.$$phase) $scope.$digest()
 	})
